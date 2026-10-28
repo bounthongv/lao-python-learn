@@ -1,0 +1,80 @@
+#!/bin/bash
+# Render Deployment Script
+# Run on your LOCAL machine (Windows/Linux/Mac)
+
+set -e
+
+echo "=========================================="
+echo "  Deploy Lao Python Learning Platform"
+echo "  to Render.com (FREE)"
+echo "=========================================="
+echo ""
+
+# Check prerequisites
+if ! command -v git &> /dev/null; then
+    echo "❌ git not found. Install git first:"
+    echo "   Windows: https://git-scm.com/download/win"
+    echo "   macOS: brew install git"
+    echo "   Linux: sudo apt install git"
+    exit 1
+fi
+
+if ! command -v docker &> /dev/null; then
+    echo "⚠️  docker not found. Required for Cloud Run."
+    echo "   For Render, git push is sufficient."
+fi
+
+echo "📁 Current directory: $(pwd)"
+echo ""
+echo "📋 Files to deploy:"
+ls -la *.py *.txt *.yaml 2>/dev/null || echo "   (check manually)"
+echo ""
+echo "=========================================="
+echo "  STEP 1: Create GitHub Repository"
+echo "=========================================="
+echo ""
+echo "1. Go to https://github.com/new"
+echo "2. Create new repository: lao-python-learn"
+echo "3. Don't initialize with README"
+echo "4. Copy the repo URL"
+echo ""
+echo "=========================================="
+echo "  STEP 2: Push Code to GitHub"
+echo "=========================================="
+echo ""
+echo "Run these commands:"
+echo ""
+echo "  git init"
+echo "  git add ."
+echo "  git commit -m 'Initial commit: Lao Python Learning Platform'"
+echo "  git branch -M main"
+echo "  git remote add origin https://github.com/YOUR_USERNAME/lao-python-learn.git"
+echo "  git push -u origin main"
+echo ""
+echo "Replace YOUR_USERNAME with your GitHub username."
+echo ""
+echo "=========================================="
+echo "  STEP 3: Deploy to Render"
+echo "=========================================="
+echo ""
+echo "1. Go to https://dashboard.render.com"
+echo "2. Sign in with GitHub"
+echo "3. Click 'New' → 'Web Service'"
+echo "4. Select your repository: lao-python-learn"
+echo "5. Configure:"
+echo "   - Name: lao-python-learn"
+echo "   - Build Command: pip install -r requirements.txt"
+echo "   - Start Command: gradio app.py --server.port \$PORT --server.host 0.0.0.0"
+echo "   - Instance Type: Free"
+echo "6. Click 'Deploy'"
+echo ""
+echo "=========================================="
+echo "  DONE!"
+echo "=========================================="
+echo ""
+echo "Your app will be at:"
+echo "  https://lao-python-learn.onrender.com"
+echo ""
+echo "Note: Free tier sleeps after 15 min inactivity."
+echo "      First visit after sleep takes ~30 seconds."
+echo ""

@@ -1,0 +1,16 @@
+# Python
+*.pyc
+__pycache__/
+venv/
+.env
+.DS_Store
+
+# Gradio
+.gradio/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
