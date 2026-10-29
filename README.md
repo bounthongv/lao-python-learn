@@ -1,5 +1,17 @@
+---
+title: Lao Python Learning Platform
+emoji: 🐍
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+sdk_version: "4.44.0"
+app_file: app.py
+pinned: false
+---
+
 # Lao Python Learning Platform
-Learn Python programming in Lao language.
+
+Web-based Python learning platform for Lao secondary students, built with Gradio.
 
 ## Features
 - 5 structured lessons in Lao
@@ -19,9 +31,3 @@ Learn Python programming in Lao language.
 pip install -r requirements.txt
 python app.py
 ```
-
-## Deploy to Render (Free)
-See DEPLOY.md for step-by-step guide.
-
-## Deploy to Hugging Face (Static)
-See deploy_hf_simple.py or deploy_static.py
