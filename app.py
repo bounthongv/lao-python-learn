@@ -16,6 +16,7 @@ except ImportError:
     audioop = types.ModuleType('audioop')
     # Register the stub module so pydub can import it
     sys.modules['audioop'] = audioop
+    sys.modules['pyaudioop'] = audioop  # pydub uses "import pyaudioop as audioop"
     # Add minimal stubs for pydub's requirements
     for name in ['getsample', 'max', 'maxpp', 'minmax', 'sum', 'sum2',
                  'avg', 'rms', 'rate', 'tiny', 'tiny32', 'tiny16', 'tiny8']:
