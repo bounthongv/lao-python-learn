@@ -19,7 +19,9 @@ except ImportError:
     # Add minimal stubs for pydub's requirements
     for name in ['getsample', 'max', 'maxpp', 'minmax', 'sum', 'sum2',
                  'avg', 'rms', 'rate', 'tiny', 'tiny32', 'tiny16', 'tiny8']:
-        setattr(audioop, name, lambda *args, **kwargs: 0)
+        def stub_func(*args, **kwargs):
+            return 0
+        setattr(audioop, name, stub_func)
 
 import gradio as gr
 from markdown_it import MarkdownIt
