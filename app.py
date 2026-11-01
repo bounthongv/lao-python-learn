@@ -8,22 +8,18 @@ import os
 import sys
 
 # Patch audioop for Python 3.14+ before importing gradio
-audioop_patched = False
 try:
     import audioop
 except ImportError:
-    # audioop removed in Python 3.14, create stub
-    try:
-        import pyaudioop as audioop
-        audioop_patched = True
-    except ImportError:
-        # Create minimal stub
-        import types
-        audioop = types.ModuleType('audioop')
-        for name in ['getsample', 'max', 'maxpp', 'minmax', 'sum', 'sum2', 
-                     'avg', 'rms', 'rate', 'tiny', 'tiny32', 'tiny16', 'tiny8']:
-            setattr(audioop, name, lambda *args, **kwargs: 0)
-        audioop_patched = True
+    # audioop removed in Python 3.14, create stub AND register in sys.modules
+    import types
+    audioop = types.ModuleType('audioop')
+    # Register the stub module so pydub can import it
+    sys.modules['audioop'] = audioop
+    # Add minimal stubs for pydub's requirements
+    for name in ['getsample', 'max', 'maxpp', 'minmax', 'sum', 'sum2',
+                 'avg', 'rms', 'rate', 'tiny', 'tiny32', 'tiny16', 'tiny8']:
+        setattr(audioop, name, lambda *args, **kwargs: 0)
 
 import gradio as gr
 from markdown_it import MarkdownIt
