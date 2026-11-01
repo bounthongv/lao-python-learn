@@ -7,6 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 7860
+# Railway sets PORT environment variable
+ENV PORT=7860
 
-CMD ["python", "app.py"]
+CMD ["sh", "-c", "python app.py --port $PORT"]
