@@ -188,6 +188,21 @@ def get_lang_choices():
 # Database connection
 def get_db_connection():
     """Get database connection from environment variables."""
+    # Support both individual env vars and DATABASE_URL (Render convention)
+    db_url = os.environ.get('DATABASE_URL')
+    if db_url:
+        # Parse DATABASE_URL: postgres://user:pass@host:port/db
+        from urllib.parse import urlparse
+        parsed = urlparse(db_url)
+        return psycopg2.connect(
+            host=parsed.hostname or 'localhost',
+            port=parsed.port or 5432,
+            database=parsed.path.lstrip('/'),
+            user=parsed.username,
+            password=parsed.password,
+            cursor_factory=RealDictCursor
+        )
+    
     return psycopg2.connect(
         host=os.environ.get("DB_HOST", "localhost"),
         port=os.environ.get("DB_PORT", "5432"),
