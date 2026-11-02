@@ -580,4 +580,6 @@ if __name__ == "__main__":
         server_name="0.0.0.0",
         server_port=port,
         share=args.share,
+        prevent_thread_lock=True,  # Required for Render's proxy
+        show_error=True,
     )
