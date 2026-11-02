@@ -1,13 +1,14 @@
 # Render Deployment Configuration
 # Create this file in your project root for Render auto-detection
-
 ---
 # render.yaml
 services:
   - type: web
     name: lao-python-learn
-    env: docker
-    dockerfilePath: ./Dockerfile
+    env: python
+    pythonVersion: "3.12"
+    buildCommand: "pip install --no-cache-dir -r requirements.txt"
+    startCommand: "python app.py --port $PORT --no-browser"
     envVars:
       - key: DB_HOST
         fromDatabase:

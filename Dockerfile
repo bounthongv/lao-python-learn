@@ -10,4 +10,5 @@ COPY . .
 # Railway sets PORT environment variable
 ENV PORT=7860
 
-CMD ["sh", "-c", "python app.py --port $PORT"]
+# Use Gradio's built-in production server flags
+CMD ["sh", "-c", "python app.py --port $PORT --no-browser"]
