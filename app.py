@@ -26,21 +26,47 @@ except ImportError:
 
 # Fix Jinja2 cache key error in Gradio 4.44.x / Python 3.14
 # Gradio's internal templates pass a dict in the cache key tuple
-# Patch Jinja2's cache to handle unhashable dict keys
+# Patch Jinja2's LRUCache to handle unhashable dict keys
 import jinja2.utils
-_original_get = jinja2.utils.LRUCache.__getitem__
-def _patched_get(self, key):
-    # Convert unhashable key (tuple containing dict) to hashable string
+
+# Helper to convert unhashable keys
+def _make_hashable(key):
+    if isinstance(key, tuple):
+        return tuple(str(k) if isinstance(k, dict) else k for k in key)
+    return key
+
+# Patch __getitem__
+_original_getitem = jinja2.utils.LRUCache.__getitem__
+def _patched_getitem(self, key):
     try:
-        return _original_get(self, key)
+        return _original_getitem(self, key)
     except TypeError as e:
         if "unhashable type: 'dict'" in str(e):
-            # Create hashable representation
-            if isinstance(key, tuple):
-                new_key = tuple(str(k) if isinstance(k, dict) else k for k in key)
-                return _original_get(self, new_key)
+            return _original_getitem(self, _make_hashable(key))
         raise
-jinja2.utils.LRUCache.__getitem__ = _patched_get
+jinja2.utils.LRUCache.__getitem__ = _patched_getitem
+
+# Patch __setitem__
+_original_setitem = jinja2.utils.LRUCache.__setitem__
+def _patched_setitem(self, key, value):
+    try:
+        return _original_setitem(self, key, value)
+    except TypeError as e:
+        if "unhashable type: 'dict'" in str(e):
+            return _original_setitem(self, _make_hashable(key), value)
+        raise
+jinja2.utils.LRUCache.__setitem__ = _patched_setitem
+
+# Patch __contains__
+_original_contains = jinja2.utils.LRUCache.__contains__
+def _patched_contains(self, key):
+    try:
+        return _original_contains(self, key)
+    except TypeError as e:
+        if "unhashable type: 'dict'" in str(e):
+            return _original_contains(self, _make_hashable(key))
+        raise
+jinja2.utils.LRUCache.__contains__ = _patched_contains
 
 import gradio as gr
 from markdown_it import MarkdownIt
