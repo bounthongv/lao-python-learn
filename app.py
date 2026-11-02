@@ -24,6 +24,24 @@ except ImportError:
             return 0
         setattr(audioop, name, stub_func)
 
+# Fix Jinja2 cache key error in Gradio 4.44.x / Python 3.14
+# Gradio's internal templates pass a dict in the cache key tuple
+# Patch Jinja2's cache to handle unhashable dict keys
+import jinja2.utils
+_original_get = jinja2.utils.LRUCache.__getitem__
+def _patched_get(self, key):
+    # Convert unhashable key (tuple containing dict) to hashable string
+    try:
+        return _original_get(self, key)
+    except TypeError as e:
+        if "unhashable type: 'dict'" in str(e):
+            # Create hashable representation
+            if isinstance(key, tuple):
+                new_key = tuple(str(k) if isinstance(k, dict) else k for k in key)
+                return _original_get(self, new_key)
+        raise
+jinja2.utils.LRUCache.__getitem__ = _patched_get
+
 import gradio as gr
 from markdown_it import MarkdownIt
 import psycopg2
