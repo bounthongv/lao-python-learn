@@ -68,6 +68,18 @@ def _patched_contains(self, key):
         raise
 jinja2.utils.LRUCache.__contains__ = _patched_contains
 
+# Fix Jinja2 split_template_path error: Gradio passes dict as template name
+# Patch to handle dict input by converting to string
+import jinja2.loaders
+_original_split = jinja2.loaders.split_template_path
+def _patched_split(template):
+    if isinstance(template, dict):
+        # Gradio bug: passes context dict as template name
+        # Convert to string representation
+        template = str(template)
+    return _original_split(template)
+jinja2.loaders.split_template_path = _patched_split
+
 import gradio as gr
 from markdown_it import MarkdownIt
 import psycopg2
