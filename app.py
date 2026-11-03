@@ -633,13 +633,12 @@ if __name__ == "__main__":
     # Render sets PORT env var; fall back to --port flag or 7860
     port = args.port or int(os.environ.get("PORT", 7860))
     # Render needs share=False (has its own proxy), but disable browser auto-open
-    auto_share = False  # Render provides its own HTTPS proxy
     app.launch(
         server_name="0.0.0.0",
         server_port=port,
-        share=auto_share,
-        prevent_thread_lock=True,  # Required for Render's proxy
-        inbrowser=False,           # Don't try to open browser (fails on headless)
-        quiet=True,                # Suppress "Running on local URL" noise
-        show_error=True,
+        share=False,
+        inbrowser=False,
+        quiet=True,
+        prevent_thread_lock=True,
+        root_path="/",
     )
