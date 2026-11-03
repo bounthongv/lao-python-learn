@@ -6,7 +6,7 @@ services:
     name: lao-python-learn
     env: python
     pythonVersion: "3.12"
-    buildCommand: "pip install --no-cache-dir -r requirements.txt"
+    buildCommand: "pip install --no-cache-dir --only-binary=:all: -r requirements.txt"
     startCommand: "python app.py --port $PORT"
     envVars:
       - key: DATABASE_URL
