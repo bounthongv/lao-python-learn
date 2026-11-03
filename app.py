@@ -632,10 +632,12 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # Render sets PORT env var; fall back to --port flag or 7860
     port = args.port or int(os.environ.get("PORT", 7860))
+    # Render needs share=True for its proxy; also auto-enable when PORT is set
+    auto_share = "PORT" in os.environ or args.share
     app.launch(
         server_name="0.0.0.0",
         server_port=port,
-        share=args.share,
+        share=auto_share,
         prevent_thread_lock=True,  # Required for Render's proxy
         show_error=True,
     )
