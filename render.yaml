@@ -1,38 +1,13 @@
 # Render Deployment Configuration
-# Create this file in your project root for Render auto-detection
----
-# render.yaml
+# Web service only — PostgreSQL is hosted on Supabase
+
 services:
   - type: web
     name: lao-python-learn
     env: python
     pythonVersion: "3.12"
     buildCommand: "pip install --no-cache-dir -r requirements.txt"
-    startCommand: "python app.py --port $PORT --no-browser"
+    startCommand: "python app.py --port $PORT"
     envVars:
-      - key: DB_HOST
-        fromDatabase:
-          name: lao-python-learn-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: lao-python-learn-db
-          property: port
-      - key: DB_NAME
-        fromDatabase:
-          name: lao-python-learn-db
-          property: databaseName
-      - key: DB_USER
-        fromDatabase:
-          name: lao-python-learn-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: lao-python-learn-db
-          property: password
-
-databases:
-  - name: lao-python-learn-db
-    databaseName: lao_python_learn
-    user: lao_user
-    plan: free
+      - key: DATABASE_URL
+        value: ""  # Set this in Render dashboard from Supabase connection string
