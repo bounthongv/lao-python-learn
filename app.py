@@ -459,25 +459,97 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
 }
 .lesson-html h1, .lesson-html > .lesson-html h1 { font-size: 1.8em; font-weight: 700; margin-bottom: 0.5em; color: #1a1a2e; }
 .lesson-html h2, .lesson-html > .lesson-html h2 { font-size: 1.4em; font-weight: 600; margin-top: 1.2em; margin-bottom: 0.4em; color: #16213e; }
-.lesson-html p, .lesson-html > .lesson-html p { margin-bottom: 0.8em; }
+.lesson-html h3, .lesson-html > .lesson-html h3 { font-size: 1.2em; font-weight: 600; margin-top: 1em; margin-bottom: 0.3em; color: #1e293b; }
+.lesson-html h4, .lesson-html > .lesson-html h4 { font-size: 1.1em; font-weight: 600; margin-top: 1em; margin-bottom: 0.3em; color: #334155; }
+.lesson-html h5, .lesson-html > .lesson-html h5,
+.lesson-html h6, .lesson-html > .lesson-html h6 { font-size: 1em; font-weight: 600; margin-top: 1em; margin-bottom: 0.3em; color: #475569; }
+.lesson-html p, .lesson-html > .lesson-html p { margin-bottom: 0.8em; color: #1e293b; }
 .lesson-html ul, .lesson-html ol, .lesson-html > .lesson-html ul, .lesson-html > .lesson-html ol { margin-left: 1.5em; margin-bottom: 0.8em; }
 .lesson-html li, .lesson-html > .lesson-html li { margin-bottom: 0.3em; }
+.lesson-html li::marker { color: #6366f1; font-weight: 600; }
+
+/* Inline code */
 .lesson-html code, .lesson-html > .lesson-html code {
-    font-family: 'Courier New', monospace !important;
-    background: #f0f0f0;
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace !important;
+    background: #f1f5f9;
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 0.9em;
+    color: #e11d48;
 }
+
+/* Code blocks */
 .lesson-html pre, .lesson-html > .lesson-html pre {
-    background: #1e1e2e;
-    color: #cdd6f4;
+    background: #0f172a;
+    color: #e2e8f0;
     padding: 16px;
     border-radius: 8px;
     overflow-x: auto;
     margin-bottom: 1em;
+    border: 1px solid #1e293b;
 }
-.lesson-html pre code, .lesson-html > .lesson-html pre code { background: none; padding: 0; color: inherit; }
+.lesson-html pre code, .lesson-html > .lesson-html pre code {
+    background: none;
+    padding: 0;
+    color: inherit;
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+/* Blockquotes */
+.lesson-html blockquote, .lesson-html > .lesson-html blockquote {
+    border-left: 4px solid #6366f1;
+    padding-left: 16px;
+    margin: 1em 0;
+    color: #475569;
+    font-style: italic;
+    background: #f8fafc;
+    border-radius: 0 8px 8px 0;
+    padding: 8px 16px;
+}
+
+/* Tables */
+.lesson-html table, .lesson-html > .lesson-html table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    font-size: 0.95em;
+}
+.lesson-html th, .lesson-html td, .lesson-html > .lesson-html th, .lesson-html > .lesson-html td {
+    border: 1px solid #e2e8f0;
+    padding: 8px 12px;
+    text-align: left;
+}
+.lesson-html th, .lesson-html > .lesson-html th {
+    background: #f1f5f9;
+    font-weight: 600;
+    color: #1e293b;
+}
+.lesson-html tr:nth-child(even), .lesson-html > .lesson-html tr:nth-child(even) {
+    background: #fafafa;
+}
+
+/* Horizontal rule */
+.lesson-html hr, .lesson-html > .lesson-html hr {
+    border: none;
+    border-top: 2px solid #e2e8f0;
+    margin: 2em 0;
+}
+
+/* Strong/Emphasis */
+.lesson-html strong, .lesson-html > .lesson-html strong { font-weight: 700; color: #1a1a2e; }
+.lesson-html em, .lesson-html > .lesson-html em { font-style: italic; color: #334155; }
+
+/* Links */
+.lesson-html a, .lesson-html > .lesson-html a {
+    color: #6366f1;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+.lesson-html a:hover, .lesson-html > .lesson-html a:hover {
+    border-bottom-color: #6366f1;
+}
 
 /* === Playground === */
 .code-editor textarea {
