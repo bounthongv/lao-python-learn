@@ -407,15 +407,16 @@ def get_first_lesson(lang):
     return list(lessons.keys())[0] if lessons else ""
 
 # Custom CSS for multilingual support
+# Google Fonts may be blocked on Render; provide local fallbacks
 custom_css = """
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
 
 body, .gradio-container, textarea, input, button, select, .tab-item, .block {
-    font-family: 'Noto Sans Lao', 'Noto Sans Thai', 'Noto Sans SC', sans-serif !important;
+    font-family: 'Noto Sans Lao', 'Noto Sans Thai', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 }
 
 .lesson-html {
-    font-family: 'Noto Sans Lao', 'Noto Sans Thai', 'Noto Sans SC', sans-serif !important;
+    font-family: 'Noto Sans Lao', 'Noto Sans Thai', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
     line-height: 1.8;
     padding: 10px;
 }
@@ -451,7 +452,11 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
 
 # Build the Gradio app with language support
 def build_app():
-    with gr.Blocks(title="Learn Python", css=custom_css) as app:
+    theme = gr.themes.Soft(
+        primary_hue="indigo",
+        secondary_hue="slate",
+    )
+    with gr.Blocks(title="Learn Python", css=custom_css, theme=theme) as app:
         # Language selector at top
         lang_selector = gr.Dropdown(
             choices=get_lang_choices(),
