@@ -407,16 +407,14 @@ def get_first_lesson(lang):
     return list(lessons.keys())[0] if lessons else ""
 
 # Custom CSS for multilingual support
-# Google Fonts may be blocked on Render; provide local fallbacks
+# No @import (blocked on Render); use system font stack with Lao/Thai/Chinese coverage
 custom_css = """
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
-
 body, .gradio-container, textarea, input, button, select, .tab-item, .block {
-    font-family: 'Noto Sans Lao', 'Noto Sans Thai', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Lao', 'Noto Sans Thai', 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif !important;
 }
 
 .lesson-html {
-    font-family: 'Noto Sans Lao', 'Noto Sans Thai', 'Noto Sans SC', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Lao', 'Noto Sans Thai', 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif !important;
     line-height: 1.8;
     padding: 10px;
 }
