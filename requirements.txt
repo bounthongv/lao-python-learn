@@ -1,12 +1,10 @@
-gradio==4.29.0
-huggingface_hub>=0.20.0,<0.25.0
+gradio==4.44.1
+huggingface_hub>=0.25.0,<0.27.0
 markdown-it-py==3.0.0
 python-dotenv>=1.0.0
 psycopg2-binary>=2.9.0
 
-# Pin the ASGI stack: Gradio 4.29.0 uses the old Starlette
-# TemplateResponse(name, context) signature. Starlette >= 1.0 removed it,
-# which makes every request fail with HTTP 500 ("TemplateNotFound: {dict}").
-fastapi==0.111.0
-starlette==0.37.2
-websockets==11.0.3
+# Gradio 4.44.1 ASGI stack pins
+fastapi==0.115.0
+starlette==0.38.6
+websockets==12.0.3
