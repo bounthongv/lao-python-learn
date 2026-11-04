@@ -14,38 +14,378 @@ CREATE TABLE IF NOT EXISTS lessons (
 -- Insert 5 lessons in Lao
 INSERT INTO lessons (title, slug, content_markdown, example_code, "order") VALUES
 (
-    '1. ພື້ນຖານ Python',
-    'lesson-1-basics',
-    '## ພື້ນຖານ Python\n\nPython ແມ່ນພາສາການປະຕິບັດຄຸນສຸດ ງ່າຍໃດ້ເພີ່ມຄວາມອ່ານໄດ້ ແລະ ຮຽນຮ້ອງຂໍ\n\n### ການຕິດຕັ້ງ Python\n\n1. ໄປໃນ https://python.org/downloads\n2. ດາວໂຫຼດລະຫັດຕິດຕັ້ງ (installer)\n3. **ສໍາຄັນ:** ລືມທີ່ກົດທີ່ກຸ່ມ `Add Python to PATH`\n4. ກົດ Install\n\n### ການຂຽນໂຄດຕໍ່ໆ\n\n```python\n# ພິມຂໍ້ຄວາມ\nprint(\"ສະບາຍດີ! ລົດ Python\")\n\n# ຕົວແປງ (Variables)\nname = \"ສົມຈິດ\"\nage = 15\nheight = 1.65\n\n# ປະກາດຂໍ້ມູນ\nprint(name)        # str\nprint(age)         # int\nprint(height)      # float\n```\n\n### ການຮັບຂໍ້ມູນຈາກຜູ້ໃຊ້\n\n```python\nname = input(\"ຊື່ອາຍຸ່ນໃດ? \")\nprint(f\"ສະບາຍດີ {name}!\")\n```',
-    '# ຕົວຢ່າງພື້ນຖານ\nprint(\"ສະບາຍດີ! ລົດ Python\")\n\nname = \"ນັກຮຽນ\"\nage = 16\nprint(f\"ຊື່: {name}, ອາຍຸ: {age}\")',
+    $$1. ພື້ນຖານ Python$$,
+    $$lesson-1-basics$$,
+    $$## ພື້ນຖານ Python
+
+Python ແມ່ນພາສາການປະຕິບັດຄຸນສຸດ ງ່າຍໃດ້ເພີ່ມຄວາມອ່ານໄດ້ ແລະ ຮຽນຮ້ອງຂໍ
+
+### ການຕິດຕັ້ງ Python
+
+1. ໄປໃນ https://python.org/downloads
+2. ດາວໂຫຼດລະຫັດຕິດຕັ້ງ (installer)
+3. **ສໍາຄັນ:** ລືມທີ່ກົດທີ່ກຸ່ມ `Add Python to PATH`
+4. ກົດ Install
+
+### ການຂຽນໂຄດຕໍ່ໆ
+
+```python
+# ພິມຂໍ້ຄວາມ
+print("ສະບາຍດີ! ລົດ Python")
+
+# ຕົວແປງ (Variables)
+name = "ສົມຈິດ"
+age = 15
+height = 1.65
+
+# ປະກາດຂໍ້ມູນ
+print(name)        # str
+print(age)         # int
+print(height)      # float
+```
+
+### ການຮັບຂໍ້ມູນຈາກຜູ້ໃຊ້
+
+```python
+name = input("ຊື່ອາຍຸ່ນໃດ? ")
+print(f"ສະບາຍດີ {name}!")
+```$$,
+    $$# ຕົວຢ່າງພື້ນຖານ
+print("ສະບາຍດີ! ລົດ Python")
+
+name = "ນັກຮຽນ"
+age = 16
+print(f"ຊື່: {name}, ອາຍຸ: {age}")$$,
     1
 ),
 (
-    '2. ເງື່ອນໄຂ (Conditions)',
-    'lesson-2-conditions',
-    '## ເງື່ອນໄຂ (if / elif / else)\n\nໃຊ້ເພື່ອເລືອກລາຍການຕາມເງື່ອນໄຂ\n\n### if ໂດຍດຽວກັບ\n\n```python\nscore = 85\n\nif score >= 50:\n    print(\"ຜ່ານ\")\nelse:\n    print(\"ບໍ່ຜ່ານ\")\n```\n\n### if - elif - else\n\n```python\nscore = int(input(\"ຄະແນນ: \"))\n\nif score >= 80:\n    grade = \"A\"\nelif score >= 70:\n    grade = \"B\"\nelif score >= 60:\n    grade = \"C\"\nelif score >= 50:\n    grade = \"D\"\nelse:\n    grade = \"F\"\n\nprint(f\"ແຜ່ນ: {grade}\")\n```\n\n### ເງື່ອນໄຂພາຍໃນ (Nested)\n\n```python\nage = 20\nhas_id = True\n\nif age >= 18:\n    if has_id:\n        print(\"ເຂົ້າໄດ້\")\n    else:\n        print(\"ຕ້ອງມີບັນທຶກ\")\nelse:\n    print(\"ອາຍຸບໍ່ພຽງ\")\n```\n\n### ປະຈຳລະອຸດເງື່ອນໄຂ (Logical Operators)\n\n```python\n# and - ຕ້ອງເງື່ອນໄຂທັງສອງ\nif age >= 18 and has_id:\n    print(\"OK\")\n\n# or - ສາມາດເງື່ອນໄຂຂອງອື່ນອື່ນ\nif is_student or is_teacher:\n    print(\"ລຸດລາຄາ\")\n\n# not - ປະຕິບັດເງື່ອນໄຂ\nif not is_banned:\n    print(\"ເຂົ້າໄດ້\")\n```',
-    '# ເງື່ອນໄຂຕົວຢ່າງ\nscore = 75\n\nif score >= 80:\n    print(\"ການສຳເລັດ\")\nelif score >= 50:\n    print(\"ຜ່ານ\")\nelse:\n    print(\"ບໍ່ຜ່ານ\")\n\n# ຕົວຢ່າງເງື່ອນໄຂພາຍໃນ\nage = 20\nif age >= 18:\n    print(\"ເປັນຜູ້ສຸດ\")\n    if age >= 60:\n        print(\"ຜູ້ສຸດອາຍຸສູງ\")',
+    $$2. ເງື່ອນໄຂ (Conditions)$$,
+    $$lesson-2-conditions$$,
+    $$## ເງື່ອນໄຂ (if / elif / else)
+
+ໃຊ້ເພື່ອເລືອກລາຍການຕາມເງື່ອນໄຂ
+
+### if ໂດຍດຽວກັບ
+
+```python
+score = 85
+
+if score >= 50:
+    print("ຜ່ານ")
+else:
+    print("ບໍ່ຜ່ານ")
+```
+
+### if - elif - else
+
+```python
+score = int(input("ຄະແນນ: "))
+
+if score >= 80:
+    grade = "A"
+elif score >= 70:
+    grade = "B"
+elif score >= 60:
+    grade = "C"
+elif score >= 50:
+    grade = "D"
+else:
+    grade = "F"
+
+print(f"ແຜ່ນ: {grade}")
+```
+
+### ເງື່ອນໄຂພາຍໃນ (Nested)
+
+```python
+age = 20
+has_id = True
+
+if age >= 18:
+    if has_id:
+        print("ເຂົ້າໄດ້")
+    else:
+        print("ຕ້ອງມີບັນທຶກ")
+else:
+    print("ອາຍຸບໍ່ພຽງ")
+```
+
+### ປະຈຳລະອຸດເງື່ອນໄຂ (Logical Operators)
+
+```python
+# and - ຕ້ອງເງື່ອນໄຂທັງສອງ
+if age >= 18 and has_id:
+    print("OK")
+
+# or - ສາມາດເງື່ອນໄຂຂອງອື່ນອື່ນ
+if is_student or is_teacher:
+    print("ລຸດລາຄາ")
+
+# not - ປະຕິບັດເງື່ອນໄຂ
+if not is_banned:
+    print("ເຂົ້າໄດ້")
+```$$,
+    $$# ເງື່ອນໄຂຕົວຢ່າງ
+score = 75
+
+if score >= 80:
+    print("ການສຳເລັດ")
+elif score >= 50:
+    print("ຜ່ານ")
+else:
+    print("ບໍ່ຜ່ານ")
+
+# ຕົວຢ່າງເງື່ອນໄຂພາຍໃນ
+age = 20
+if age >= 18:
+    print("ເປັນຜູ້ສຸດ")
+    if age >= 60:
+        print("ຜູ້ສຸດອາຍຸສູງ")$$,
     2
 ),
 (
-    '3. ລູກສອນ (Loops)',
-    'lesson-3-loops',
-    '## ລູກສອນ (for / while)\n\nໃຊ້ເພື່ອຕອບການສິ້ນສຸດສາມາດ\n\n### for loop\n\n```python\n# ວົງລະບຸຈຳນວນ\nfor i in range(5):\n    print(i)  # 0, 1, 2, 3, 4\n\n# ການກໍານົດລາຍການ\nfruits = [\"ໝາກມັງ\", \"ໝາກກໍ\", \"ໝາກທຸງ\"]\nfor fruit in fruits:\n    print(f\"ຂ້ອຍມັກກິນ {fruit}\")\n```\n\n### range() ລາຍລະອຽດ\n\n```python\nrange(5)        # 0, 1, 2, 3, 4\nrange(1, 6)     # 1, 2, 3, 4, 5\nrange(1, 10, 2) # 1, 3, 5, 7, 9 (ກັບ 2)\nrange(10, 0, -1) # 10, 9, ..., 1 (ກັບໝົດ)\n```\n\n### while loop\n\n```python\ncount = 1\nwhile count <= 5:\n    print(count)\n    count += 1  # ບໍ່ຕ້ອງການ count = count + 1\n```\n\n### break / continue\n\n```python\n# break - ອອກຈາກ loop\nfor i in range(10):\n    if i == 5:\n        break\n    print(i)  # 0-4\n\n# continue - ຂໍ້ລົບລູກສອນດຽວກັບ\nfor i in range(5):\n    if i == 2:\n        continue\n    print(i)  # 0, 1, 3, 4\n```\n\n### ລູກສອນພາຍໃນ (Nested loops)\n\n```python\n# ການຄູ່ສູງ\nfor i in range(1, 4):\n    for j in range(1, 4):\n        print(f\"{i} x {j} = {i*j}\")\n    print(\"---\")\n```',
-    '# ລູກສອນຕົວຢ່າງ\nfor i in range(1, 6):\n    print(f\"ລູກສອນຄັ້ງທີ {i}\")\n\n# while ຕົວຢ່າງ\ncount = 10\nwhile count > 0:\n    print(count)\n    count -= 1\nprint(\"ສັນສຽງ!\")',
+    $$3. ລູກສອນ (Loops)$$,
+    $$lesson-3-loops$$,
+    $$## ລູກສອນ (for / while)
+
+ໃຊ້ເພື່ອຕອບການສິ້ນສຸດສາມາດ
+
+### for loop
+
+```python
+# ວົງລະບຸຈຳນວນ
+for i in range(5):
+    print(i)  # 0, 1, 2, 3, 4
+
+# ການກໍານົດລາຍການ
+fruits = ["ໝາກມັງ", "ໝາກກໍ", "ໝາກທຸງ"]
+for fruit in fruits:
+    print(f"ຂ້ອຍມັກກິນ {fruit}")
+```
+
+### range() ລາຍລະອຽດ
+
+```python
+range(5)        # 0, 1, 2, 3, 4
+range(1, 6)     # 1, 2, 3, 4, 5
+range(1, 10, 2) # 1, 3, 5, 7, 9 (ກັບ 2)
+range(10, 0, -1) # 10, 9, ..., 1 (ກັບໝົດ)
+```
+
+### while loop
+
+```python
+count = 1
+while count <= 5:
+    print(count)
+    count += 1  # ບໍ່ຕ້ອງການ count = count + 1
+```
+
+### break / continue
+
+```python
+# break - ອອກຈາກ loop
+for i in range(10):
+    if i == 5:
+        break
+    print(i)  # 0-4
+
+# continue - ຂໍ້ລົບລູກສອນດຽວກັບ
+for i in range(5):
+    if i == 2:
+        continue
+    print(i)  # 0, 1, 3, 4
+```
+
+### ລູກສອນພາຍໃນ (Nested loops)
+
+```python
+# ການຄູ່ສູງ
+for i in range(1, 4):
+    for j in range(1, 4):
+        print(f"{i} x {j} = {i*j}")
+    print("---")
+```$$,
+    $$# ລູກສອນຕົວຢ່າງ
+for i in range(1, 6):
+    print(f"ລູກສອນຄັ້ງທີ {i}")
+
+# while ຕົວຢ່າງ
+count = 10
+while count > 0:
+    print(count)
+    count -= 1
+print("ສັນສຽງ!")$$,
     3
 ),
 (
-    '4. ລິສັດ (Lists)',
-    'lesson-4-lists',
-    '## ລິສັດ (Lists)\n\nຈຳນວນຂໍ້ມູນຫຼາຍຂໍ້ມູນໃນທາງເທົ່ານັ້ນ\n\n### ການສ້າງ List\n\n```python\n# ວັນທີ່\nempty = []\nnumbers = [1, 2, 3, 4, 5]\nnames = [\"ສົມຈິດ\", \"ສຸກສັນ\", \"ດາວ\"]\nmixed = [1, \"ສະບາຍ\", 3.14, True]\n```\n\n### ເຂົ້າເຖິງຂໍ້ມູນ (Indexing)\n\n```python\nfruits = [\"ໝາກມັງ\", \"ໝາກກໍ\", \"ໝາກທຸງ\"]\n\nprint(fruits[0])   # ໝາກມັງ (ເລກ 0)\nprint(fruits[1])   # ໝາກກໍ\nprint(fruits[-1])  # ໝາກທຸງ (ສຸດທ້າຍ)\n```\n\n### ແກ້ໄຂ ແລະ ເພີ່ມຂໍ້ມູນ\n\n```python\nfruits[0] = \"ໝາກເຜັດ\"  # ແກ້ໄຂ\nfruits.append(\"ໝາກພາຍ\")  # ເພີ່ມຕົວເສດ\nfruits.insert(1, \"ໝາກອິນ\")  # ເພີ່ມທີ່ຕຳແໜ່ງ\n```\n\n### ລົບຂໍ້ມູນ\n\n```python\nfruits.remove(\"ໝາກກໍ\")  # ລົບຕາມຄ່າ\npopped = fruits.pop()   # ລົບຕົວສຸດທ້າຍ ແລະ ສົ່ງຄືນ\n```\n\n### ການຕັດລິສັດ (Slicing)\n\n```python\nnumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\n\nprint(numbers[2:5])   # [2, 3, 4]\nprint(numbers[:3])    # [0, 1, 2]\nprint(numbers[-3:])   # [7, 8, 9]\nprint(numbers[::2])   # [0, 2, 4, 6, 8] (ກັບ 2)\n```\n\n### List Methods ທີ່ສໍາຄັນ\n\n```python\nlen(fruits)        # ຈຳນວນຕົວ\nfruits.sort()      # ຈັດລັບ\nfruits.reverse()   # ກັບລົບ\nfruits.count(x)    # ນັບຈຳນວນ x\nfruits.index(x)    # ຫາຕຳແໜ່ງ x\n```',
-    '# ລິສັດຕົວຢ່າງ\nstudents = [\"ສົມຈິດ\", \"ສຸກສັນ\", \"ດາວ\"]\n\n# ເພີ່ມນັກຮຽນໃໝ່\nstudents.append(\"ນິດ\")\n\n# ສະແດງທັງໝົດ\nfor i, name in enumerate(students, 1):\n    print(f\"{i}. {name}\")\n\n# ຈຳນວນ\nprint(f\"ລວມ: {len(students)} ຄົນ\")',
+    $$4. ລິສັດ (Lists)$$,
+    $$lesson-4-lists$$,
+    $$## ລິສັດ (Lists)
+
+ຈຳນວນຂໍ້ມູນຫຼາຍຂໍ້ມູນໃນທາງເທົ່ານັ້ນ
+
+### ການສ້າງ List
+
+```python
+# ວັນທີ່
+empty = []
+numbers = [1, 2, 3, 4, 5]
+names = ["ສົມຈິດ", "ສຸກສັນ", "ດາວ"]
+mixed = [1, "ສະບາຍ", 3.14, True]
+```
+
+### ເຂົ້າເຖິງຂໍ້ມູນ (Indexing)
+
+```python
+fruits = ["ໝາກມັງ", "ໝາກກໍ", "ໝາກທຸງ"]
+
+print(fruits[0])   # ໝາກມັງ (ເລກ 0)
+print(fruits[1])   # ໝາກກໍ
+print(fruits[-1])  # ໝາກທຸງ (ສຸດທ້າຍ)
+```
+
+### ແກ້ໄຂ ແລະ ເພີ່ມຂໍ້ມູນ
+
+```python
+fruits[0] = "ໝາກເຜັດ"  # ແກ້ໄຂ
+fruits.append("ໝາກພາຍ")  # ເພີ່ມຕົວເສດ
+fruits.insert(1, "ໝາກອິນ")  # ເພີ່ມທີ່ຕຳແໜ່ງ
+```
+
+### ລົບຂໍ້ມູນ
+
+```python
+fruits.remove("ໝາກກໍ")  # ລົບຕາມຄ່າ
+popped = fruits.pop()   # ລົບຕົວສຸດທ້າຍ ແລະ ສົ່ງຄືນ
+```
+
+### ການຕັດລິສັດ (Slicing)
+
+```python
+numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+print(numbers[2:5])   # [2, 3, 4]
+print(numbers[:3])    # [0, 1, 2]
+print(numbers[-3:])   # [7, 8, 9]
+print(numbers[::2])   # [0, 2, 4, 6, 8] (ກັບ 2)
+```
+
+### List Methods ທີ່ສໍາຄັນ
+
+```python
+len(fruits)        # ຈຳນວນຕົວ
+fruits.sort()      # ຈັດລັບ
+fruits.reverse()   # ກັບລົບ
+fruits.count(x)    # ນັບຈຳນວນ x
+fruits.index(x)    # ຫາຕຳແໜ່ງ x
+```$$,
+    $$# ລິສັດຕົວຢ່າງ
+students = ["ສົມຈິດ", "ສຸກສັນ", "ດາວ"]
+
+# ເພີ່ມນັກຮຽນໃໝ່
+students.append("ນິດ")
+
+# ສະແດງທັງໝົດ
+for i, name in enumerate(students, 1):
+    print(f"{i}. {name}")
+
+# ຈຳນວນ
+print(f"ລວມ: {len(students)} ຄົນ")$$,
     4
 ),
 (
-    '5. ຟັງຊັນ (Functions)',
-    'lesson-5-functions',
-    '## ຟັງຊັນ (Functions)\n\nກຸ້ງໂຄດທີ່ນຳໃຊ້ສາມາດ ແລະ ຈັດການງານໄດ້ເຂົ້າໄປ\n\n### ການສ້າງຟັງຊັນ\n\n```python\n# ບໍ່ມີປະມານ\ndef greet():\n    print(\"ສະບາຍດີ!\")\n\ngreet()  # ເອົາໃຊ້\n\n# ມີປະມານ\ndef greet_name(name):\n    print(f\"ສະບາຍດີ {name}!\")\n\ngreet_name(\"ສົມຈິດ\")\n\n# ມີຄ່າສົ່ງຄືນ (return)\ndef add(a, b):\n    return a + b\n\nresult = add(5, 3)\nprint(result)  # 8\n```\n\n### ປະມານມີຄ່າເລີຍງານ (Default Parameters)\n\n```python\ndef greet(name, greeting=\"ສະບາຍດີ\"):\n    print(f\"{greeting} {name}!\")\n\ngreet(\"ສົມຈິດ\")           # ສະບາຍດີ ສົມຈິດ!\ngreet(\"ສຸກສັນ\", \"ສະບາຍດີຕອນເຊົ້າ\")  # ສະບາຍດີຕອນເຊົ້າ ສຸກສັນ!\n```\n\n### ຟັງຊັນສົ່ງຄືນຫຼາຍຄ່າ (Multiple Return)\n\n```python\ndef calculate(a, b):\n    return a + b, a - b, a * b, a / b\n\nsum_, diff, prod, quot = calculate(10, 2)\nprint(sum_, diff, prod, quot)\n```\n\n### Variable Scope\n\n```python\nglobal_var = \"ກົດ\"  # global\n\ndef my_func():\n    local_var = \"ພິເສດ\"  # local\n    print(global_var)  # ເຂົ້າໄດ້\n    print(local_var)   # ເຂົາໄດ້\n\nmy_func()\nprint(global_var)  # ເຂົ້າໄດ້\n# print(local_var)  # ❌ Error!\n```\n\n### Lambda Functions (ອຸ່ນຍາກ)\n\n```python\n# ຟັງຊັນອຸ່ນຍາກ\nsquare = lambda x: x * x\nprint(square(5))  # 25\n\n# ກັບ map/filter\nnumbers = [1, 2, 3, 4, 5]\nsquares = list(map(lambda x: x*x, numbers))\nevens = list(filter(lambda x: x%2==0, numbers))\n```',
-    '# ຟັງຊັນຕົວຢ່າງ\ndef greet(name):\n    return f\"ສະບາຍດີ {name}!\"\n\nprint(greet(\"ນັກຮຽນ\"))\n\n# ຟັງຊັນຄິດຄວາມກວດ\ndef rectangle_area(width, height):\n    return width * height\n\nprint(f\"ພະນາທີ: {rectangle_area(5, 3)}\")',
+    $$5. ຟັງຊັນ (Functions)$$,
+    $$lesson-5-functions$$,
+    $$## ຟັງຊັນ (Functions)
+
+ກຸ້ງໂຄດທີ່ນຳໃຊ້ສາມາດ ແລະ ຈັດການງານໄດ້ເຂົ້າໄປ
+
+### ການສ້າງຟັງຊັນ
+
+```python
+# ບໍ່ມີປະມານ
+def greet():
+    print("ສະບາຍດີ!")
+
+greet()  # ເອົາໃຊ້
+
+# ມີປະມານ
+def greet_name(name):
+    print(f"ສະບາຍດີ {name}!")
+
+greet_name("ສົມຈິດ")
+
+# ມີຄ່າສົ່ງຄືນ (return)
+def add(a, b):
+    return a + b
+
+result = add(5, 3)
+print(result)  # 8
+```
+
+### ປະມານມີຄ່າເລີຍງານ (Default Parameters)
+
+```python
+def greet(name, greeting="ສະບາຍດີ"):
+    print(f"{greeting} {name}!")
+
+greet("ສົມຈິດ")           # ສະບາຍດີ ສົມຈິດ!
+greet("ສຸກສັນ", "ສະບາຍດີຕອນເຊົ້າ")  # ສະບາຍດີຕອນເຊົ້າ ສຸກສັນ!
+```
+
+### ຟັງຊັນສົ່ງຄືນຫຼາຍຄ່າ (Multiple Return)
+
+```python
+def calculate(a, b):
+    return a + b, a - b, a * b, a / b
+
+sum_, diff, prod, quot = calculate(10, 2)
+print(sum_, diff, prod, quot)
+```
+
+### Variable Scope
+
+```python
+global_var = "ກົດ"  # global
+
+def my_func():
+    local_var = "ພິເສດ"  # local
+    print(global_var)  # ເຂົ້າໄດ້
+    print(local_var)   # ເຂົາໄດ້
+
+my_func()
+print(global_var)  # ເຂົ້າໄດ້
+# print(local_var)  # ❌ Error!
+```
+
+### Lambda Functions (ອຸ່ນຍາກ)
+
+```python
+# ຟັງຊັນອຸ່ນຍາກ
+square = lambda x: x * x
+print(square(5))  # 25
+
+# ກັບ map/filter
+numbers = [1, 2, 3, 4, 5]
+squares = list(map(lambda x: x*x, numbers))
+evens = list(filter(lambda x: x%2==0, numbers))
+```$$,
+    $$# ຟັງຊັນຕົວຢ່າງ
+def greet(name):
+    return f"ສະບາຍດີ {name}!"
+
+print(greet("ນັກຮຽນ"))
+
+# ຟັງຊັນຄິດຄວາມກວດ
+def rectangle_area(width, height):
+    return width * height
+
+print(f"ພະນາທີ: {rectangle_area(5, 3)}")$$,
     5
 )
-ON CONFLICT (slug) DO NOTHING;
+ON CONFLICT (slug) DO UPDATE SET
+    title = EXCLUDED.title,
+    content_markdown = EXCLUDED.content_markdown,
+    example_code = EXCLUDED.example_code,
+    "order" = EXCLUDED."order";
