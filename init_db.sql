@@ -1,5 +1,9 @@
 -- Database initialization for Lao Python Learning Platform
--- Run this on Railway PostgreSQL after provisioning
+-- Loaded into Supabase Postgres by migrate_to_supabase.py.
+--
+-- IMPORTANT: lesson text is dollar-quoted ($$...$$) and must contain REAL newlines.
+-- A '\n' inside a plain '...' string is stored by Postgres as a literal backslash-n,
+-- which collapses each lesson into one line and stops markdown rendering.
 
 CREATE TABLE IF NOT EXISTS lessons (
     id SERIAL PRIMARY KEY,
