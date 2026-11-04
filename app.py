@@ -448,7 +448,8 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
 }
 
 /* === Lesson content === */
-.lesson-html {
+.lesson-html,
+.lesson-html > .lesson-html {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Lao', 'Noto Sans Thai', 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif !important;
     line-height: 1.8;
     padding: 16px;
@@ -456,19 +457,19 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
     border-radius: 8px;
     border: 1px solid #e2e8f0;
 }
-.lesson-html h1 { font-size: 1.8em; font-weight: 700; margin-bottom: 0.5em; color: #1a1a2e; }
-.lesson-html h2 { font-size: 1.4em; font-weight: 600; margin-top: 1.2em; margin-bottom: 0.4em; color: #16213e; }
-.lesson-html p { margin-bottom: 0.8em; }
-.lesson-html ul, .lesson-html ol { margin-left: 1.5em; margin-bottom: 0.8em; }
-.lesson-html li { margin-bottom: 0.3em; }
-.lesson-html code {
+.lesson-html h1, .lesson-html > .lesson-html h1 { font-size: 1.8em; font-weight: 700; margin-bottom: 0.5em; color: #1a1a2e; }
+.lesson-html h2, .lesson-html > .lesson-html h2 { font-size: 1.4em; font-weight: 600; margin-top: 1.2em; margin-bottom: 0.4em; color: #16213e; }
+.lesson-html p, .lesson-html > .lesson-html p { margin-bottom: 0.8em; }
+.lesson-html ul, .lesson-html ol, .lesson-html > .lesson-html ul, .lesson-html > .lesson-html ol { margin-left: 1.5em; margin-bottom: 0.8em; }
+.lesson-html li, .lesson-html > .lesson-html li { margin-bottom: 0.3em; }
+.lesson-html code, .lesson-html > .lesson-html code {
     font-family: 'Courier New', monospace !important;
     background: #f0f0f0;
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 0.9em;
 }
-.lesson-html pre {
+.lesson-html pre, .lesson-html > .lesson-html pre {
     background: #1e1e2e;
     color: #cdd6f4;
     padding: 16px;
@@ -476,7 +477,7 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
     overflow-x: auto;
     margin-bottom: 1em;
 }
-.lesson-html pre code { background: none; padding: 0; color: inherit; }
+.lesson-html pre code, .lesson-html > .lesson-html pre code { background: none; padding: 0; color: inherit; }
 
 /* === Playground === */
 .code-editor textarea {
@@ -531,7 +532,8 @@ def build_app():
             )
             lesson_content = gr.HTML(
                 value=ALL_LESSON_HTML[DEFAULT_LANG].get(first_lesson, ""),
-                show_label=False
+                show_label=False,
+                elem_classes="lesson-html"
             )
             
             lesson_selector.change(
