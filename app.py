@@ -76,8 +76,8 @@ UI_TEXT = {
         "lessons_list": [
             "1. ພື້ນຖານ Python",
             "2. ໃຊ້ງານເງື່ອນໄຂ",
-            "3. ລູກສອນ",
-            "4. ລິສັດ",
+            "3. ລຸປ",
+            "4. ລິສ",
             "5. ຟັງຊັນ",
         ],
         "lang_label": "ພາສາ / Language",
@@ -481,20 +481,23 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
     color: #e11d48;
 }
 
-/* Code blocks */
+/* Code blocks. The dark background needs !important on the text colour too:
+   something inside <pre> sets its own dark token colour, which renders
+   invisible against #0f172a. */
 .lesson-html pre, .lesson-html > .lesson-html pre {
-    background: #0f172a;
-    color: #e2e8f0;
+    background: #0f172a !important;
+    color: #e2e8f0 !important;
     padding: 16px;
     border-radius: 8px;
     overflow-x: auto;
     margin-bottom: 1em;
     border: 1px solid #1e293b;
 }
-.lesson-html pre code, .lesson-html > .lesson-html pre code {
-    background: none;
+.lesson-html pre code, .lesson-html > .lesson-html pre code,
+.lesson-html pre code *, .lesson-html > .lesson-html pre code * {
+    background: none !important;
     padding: 0;
-    color: inherit;
+    color: #e2e8f0 !important;
     font-size: 0.9em;
     line-height: 1.6;
 }

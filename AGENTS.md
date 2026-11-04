@@ -22,6 +22,15 @@ Quick-ramp file for this repo. Only high-signal facts.
   so content is double-wrapped: style both (`.lesson-html, .lesson-html > .lesson-html { … }`).
 - Never `@import` webfonts — blocked on Render. Use the system font stack with `Noto Sans Lao`,
   `Noto Sans Thai`, `Noto Sans SC` fallbacks and `!important`.
+- Lesson `<pre>` blocks need `color: … !important` on `pre`, `pre code` **and** `pre code *`.
+  Something inside the block sets its own dark token colour, which is invisible on the dark
+  background; without `!important` the code samples render dark-on-dark.
+
+## Lao terminology (use these, not literal dictionary words)
+- List → ລິສ (not ລິສັດ = "company"), Loop → ລຸປ (not ລູກສອນ = "arrow"),
+  variable → ຕົວແປ (not ຕົວແປງ), important → ສຳຄັນ (no ເ).
+- Much of the lesson prose is still machine-mangled Lao; fix it with byte-exact extracted
+  strings, and never rewrite a whole lesson in one pass.
 
 ## Adding a lesson / language
 - Lesson text lives in Postgres (`lessons`: `lang`, `title`, `slug`, `content_markdown`,

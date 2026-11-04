@@ -28,7 +28,7 @@ Python ແມ່ນພາສາການປະຕິບັດຄຸນສຸດ 
 
 1. ໄປໃນ https://python.org/downloads
 2. ດາວໂຫຼດລະຫັດຕິດຕັ້ງ (installer)
-3. **ສໍາຄັນ:** ລືມທີ່ກົດທີ່ກຸ່ມ `Add Python to PATH`
+3. **ສຳຄັນ:** ລືມທີ່ກົດທີ່ກຸ່ມ `Add Python to PATH`
 4. ກົດ Install
 
 ### ການຂຽນໂຄດຕໍ່ໆ
@@ -37,7 +37,7 @@ Python ແມ່ນພາສາການປະຕິບັດຄຸນສຸດ 
 # ພິມຂໍ້ຄວາມ
 print("ສະບາຍດີ! ລົດ Python")
 
-# ຕົວແປງ (Variables)
+# ຕົວແປ (Variables)
 name = "ສົມຈິດ"
 age = 15
 height = 1.65
@@ -117,8 +117,13 @@ else:
 ### ປະຈຳລະອຸດເງື່ອນໄຂ (Logical Operators)
 
 ```python
+age = 20
+is_student = True
+is_teacher = False
+is_banned = False
+
 # and - ຕ້ອງເງື່ອນໄຂທັງສອງ
-if age >= 18 and has_id:
+if age >= 18 and is_student:
     print("OK")
 
 # or - ສາມາດເງື່ອນໄຂຂອງອື່ນອື່ນ
@@ -148,9 +153,9 @@ if age >= 18:
     2
 ),
 (
-    $$3. ລູກສອນ (Loops)$$,
+    $$3. ລຸປ (Loops)$$,
     $$lesson-3-loops$$,
-    $$## ລູກສອນ (for / while)
+    $$## ລຸປ (for / while)
 
 ໃຊ້ເພື່ອຕອບການສິ້ນສຸດສາມາດ
 
@@ -194,14 +199,14 @@ for i in range(10):
         break
     print(i)  # 0-4
 
-# continue - ຂໍ້ລົບລູກສອນດຽວກັບ
+# continue - ຂໍ້ລົບລຸປດຽວກັບ
 for i in range(5):
     if i == 2:
         continue
     print(i)  # 0, 1, 3, 4
 ```
 
-### ລູກສອນພາຍໃນ (Nested loops)
+### ລຸປພາຍໃນ (Nested loops)
 
 ```python
 # ການຄູ່ສູງ
@@ -210,9 +215,9 @@ for i in range(1, 4):
         print(f"{i} x {j} = {i*j}")
     print("---")
 ```$$,
-    $$# ລູກສອນຕົວຢ່າງ
+    $$# ລຸປຕົວຢ່າງ
 for i in range(1, 6):
-    print(f"ລູກສອນຄັ້ງທີ {i}")
+    print(f"ລຸປຄັ້ງທີ {i}")
 
 # while ຕົວຢ່າງ
 count = 10
@@ -223,9 +228,9 @@ print("ສັນສຽງ!")$$,
     3
 ),
 (
-    $$4. ລິສັດ (Lists)$$,
+    $$4. ລິສ (Lists)$$,
     $$lesson-4-lists$$,
-    $$## ລິສັດ (Lists)
+    $$## ລິສ (Lists)
 
 ຈຳນວນຂໍ້ມູນຫຼາຍຂໍ້ມູນໃນທາງເທົ່ານັ້ນ
 
@@ -252,6 +257,8 @@ print(fruits[-1])  # ໝາກທຸງ (ສຸດທ້າຍ)
 ### ແກ້ໄຂ ແລະ ເພີ່ມຂໍ້ມູນ
 
 ```python
+fruits = ["ໝາກມັງ", "ໝາກກໍ", "ໝາກທຸງ"]
+
 fruits[0] = "ໝາກເຜັດ"  # ແກ້ໄຂ
 fruits.append("ໝາກພາຍ")  # ເພີ່ມຕົວເສດ
 fruits.insert(1, "ໝາກອິນ")  # ເພີ່ມທີ່ຕຳແໜ່ງ
@@ -260,11 +267,13 @@ fruits.insert(1, "ໝາກອິນ")  # ເພີ່ມທີ່ຕຳແໜ�
 ### ລົບຂໍ້ມູນ
 
 ```python
+fruits = ["ໝາກມັງ", "ໝາກກໍ", "ໝາກທຸງ"]
+
 fruits.remove("ໝາກກໍ")  # ລົບຕາມຄ່າ
 popped = fruits.pop()   # ລົບຕົວສຸດທ້າຍ ແລະ ສົ່ງຄືນ
 ```
 
-### ການຕັດລິສັດ (Slicing)
+### ການຕັດລິສ (Slicing)
 
 ```python
 numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -275,16 +284,22 @@ print(numbers[-3:])   # [7, 8, 9]
 print(numbers[::2])   # [0, 2, 4, 6, 8] (ກັບ 2)
 ```
 
-### List Methods ທີ່ສໍາຄັນ
+### List Methods ທີ່ສຳຄັນ
 
 ```python
-len(fruits)        # ຈຳນວນຕົວ
-fruits.sort()      # ຈັດລັບ
-fruits.reverse()   # ກັບລົບ
-fruits.count(x)    # ນັບຈຳນວນ x
-fruits.index(x)    # ຫາຕຳແໜ່ງ x
+fruits = ["ໝາກມັງ", "ໝາກກໍ", "ໝາກທຸງ", "ໝາກມັງ"]
+
+print(len(fruits))                # 4   ຈຳນວນຕົວ
+print(fruits.count("ໝາກມັງ"))          # 2   ນັບຈຳນວນ
+print(fruits.index("ໝາກກໍ"))          # 1   ຕຳແໜ່ງ
+
+fruits.sort()
+print(fruits)
+
+fruits.reverse()
+print(fruits)
 ```$$,
-    $$# ລິສັດຕົວຢ່າງ
+    $$# ລິສຕົວຢ່າງ
 students = ["ສົມຈິດ", "ສຸກສັນ", "ດາວ"]
 
 # ເພີ່ມນັກຮຽນໃໝ່
