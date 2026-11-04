@@ -588,13 +588,21 @@ if __name__ == "__main__":
     args = parser.parse_args()
     # Render sets PORT env var; fall back to --port flag or 7860
     port = args.port or int(os.environ.get("PORT", 7860))
-    # Render needs share=False (has its own proxy), but disable browser auto-open
+
+    # Gradio 4.29 localhost-reachability workaround for Render:
+    # Gradio pings http://localhost:<port> after startup. Render's container
+    # networking sometimes makes that probe fail even though the server IS
+    # listening on 0.0.0.0, causing a ValueError.  Monkey-patch url_ok()
+    # to always succeed when we know we're behind Render's reverse proxy.
+    if os.environ.get("RENDER") == "true":
+        import gradio.networking as _gn
+        _gn.url_ok = lambda url: True
+
     app.launch(
         server_name="0.0.0.0",
         server_port=port,
-        share=False,
+        share=args.share,
         inbrowser=False,
         quiet=True,
-        prevent_thread_lock=True,
         root_path="/",
     )
