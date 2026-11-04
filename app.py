@@ -409,14 +409,52 @@ def get_first_lesson(lang):
 # Custom CSS for multilingual support
 # No @import (blocked on Render); use system font stack with Lao/Thai/Chinese coverage
 custom_css = """
+/* === Base font stack === */
 body, .gradio-container, textarea, input, button, select, .tab-item, .block {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Lao', 'Noto Sans Thai', 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif !important;
 }
 
+/* === Layout containers === */
+.gradio-container {
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    padding: 24px 16px !important;
+}
+#main { padding: 0 !important; }
+
+/* === Tabs === */
+.tab-nav { 
+    border-bottom: 2px solid #e2e8f0; 
+    margin-bottom: 24px; 
+}
+.tab-item {
+    font-weight: 500 !important;
+    padding: 12px 20px !important;
+    border-radius: 8px 8px 0 0 !important;
+    transition: all 0.2s ease;
+}
+.tab-item.selected {
+    background: #e0e7ff !important;
+    color: #3730a3 !important;
+    border-bottom-color: #6366f1 !important;
+}
+
+/* === Language selector === */
+.lang-selector { 
+    margin-bottom: 16px !important; 
+}
+.lang-selector select { 
+    min-width: 200px; 
+}
+
+/* === Lesson content === */
 .lesson-html {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans Lao', 'Noto Sans Thai', 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif !important;
     line-height: 1.8;
-    padding: 10px;
+    padding: 16px;
+    background: #fafafa;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
 }
 .lesson-html h1 { font-size: 1.8em; font-weight: 700; margin-bottom: 0.5em; color: #1a1a2e; }
 .lesson-html h2 { font-size: 1.4em; font-weight: 600; margin-top: 1.2em; margin-bottom: 0.4em; color: #16213e; }
@@ -438,14 +476,29 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
     overflow-x: auto;
     margin-bottom: 1em;
 }
-.lesson-html pre code {
-    background: none;
-    padding: 0;
-    color: inherit;
+.lesson-html pre code { background: none; padding: 0; color: inherit; }
+
+/* === Playground === */
+.code-editor textarea {
+    font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    tab-size: 4 !important;
+}
+.run-btn { 
+    min-width: 100px; 
 }
 
-/* Language selector styling */
-.lang-selector { margin-bottom: 10px; }
+/* === Dropdowns & Inputs === */
+.gr-dropdown, .gr-textbox { 
+    width: 100% !important; 
+}
+
+/* === About tab === */
+.about-content {
+    padding: 16px;
+    line-height: 1.7;
+}
 """
 
 # Build the Gradio app with language support
@@ -498,11 +551,12 @@ def build_app():
             code_input = gr.Textbox(
                 label=UI_TEXT[DEFAULT_LANG]["code_label"],
                 lines=10,
-                placeholder=UI_TEXT[DEFAULT_LANG]["code_placeholder"]
+                placeholder=UI_TEXT[DEFAULT_LANG]["code_placeholder"],
+                elem_classes="code-editor"
             )
             code_output = gr.Textbox(label=UI_TEXT[DEFAULT_LANG]["output_label"], lines=10, interactive=False)
             
-            run_btn = gr.Button(UI_TEXT[DEFAULT_LANG]["run_btn"], variant="primary")
+            run_btn = gr.Button(UI_TEXT[DEFAULT_LANG]["run_btn"], variant="primary", elem_classes="run-btn")
             
             def on_select_example(example, lang):
                 return EXAMPLE_CODES.get(lang, EXAMPLE_CODES["lo"]).get(example, "")
@@ -515,7 +569,8 @@ def build_app():
                 UI_TEXT[DEFAULT_LANG]["about_title"] + "\n" + 
                 "\n".join([f"- {item}" for item in UI_TEXT[DEFAULT_LANG]["about_items"]]) + "\n\n" +
                 "### Lessons\n" +
-                "\n".join([f"{i+1}. {item}" for i, item in enumerate(UI_TEXT[DEFAULT_LANG]["lessons_list"])])
+                "\n".join([f"{i+1}. {item}" for i, item in enumerate(UI_TEXT[DEFAULT_LANG]["lessons_list"])]),
+                elem_classes="about-content"
             )
         
         # Language change handler - returns values for each output component
