@@ -1,0 +1,14 @@
+# Local environment / VCS
+venv/
+.git/
+.gitignore
+__pycache__/
+*.pyc
+.gradio/
+.env
+
+# Docs and local-only helpers
+docs/
+*.md
+deploy_*.py
+deploy_*.sh

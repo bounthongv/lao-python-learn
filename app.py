@@ -24,62 +24,6 @@ except ImportError:
             return 0
         setattr(audioop, name, stub_func)
 
-# Fix Jinja2 cache key error in Gradio 4.44.x / Python 3.14
-# Gradio's internal templates pass a dict in the cache key tuple
-# Patch Jinja2's LRUCache to handle unhashable dict keys
-import jinja2.utils
-
-# Helper to convert unhashable keys
-def _make_hashable(key):
-    if isinstance(key, tuple):
-        return tuple(str(k) if isinstance(k, dict) else k for k in key)
-    return key
-
-# Patch __getitem__
-_original_getitem = jinja2.utils.LRUCache.__getitem__
-def _patched_getitem(self, key):
-    try:
-        return _original_getitem(self, key)
-    except TypeError as e:
-        if "unhashable type: 'dict'" in str(e):
-            return _original_getitem(self, _make_hashable(key))
-        raise
-jinja2.utils.LRUCache.__getitem__ = _patched_getitem
-
-# Patch __setitem__
-_original_setitem = jinja2.utils.LRUCache.__setitem__
-def _patched_setitem(self, key, value):
-    try:
-        return _original_setitem(self, key, value)
-    except TypeError as e:
-        if "unhashable type: 'dict'" in str(e):
-            return _original_setitem(self, _make_hashable(key), value)
-        raise
-jinja2.utils.LRUCache.__setitem__ = _patched_setitem
-
-# Patch __contains__
-_original_contains = jinja2.utils.LRUCache.__contains__
-def _patched_contains(self, key):
-    try:
-        return _original_contains(self, key)
-    except TypeError as e:
-        if "unhashable type: 'dict'" in str(e):
-            return _original_contains(self, _make_hashable(key))
-        raise
-jinja2.utils.LRUCache.__contains__ = _patched_contains
-
-# Fix Jinja2 split_template_path error: Gradio passes dict as template name
-# Patch to handle dict input by converting to string
-import jinja2.loaders
-_original_split = jinja2.loaders.split_template_path
-def _patched_split(template):
-    if isinstance(template, dict):
-        # Gradio bug: passes context dict as template name
-        # Convert to string representation
-        template = str(template)
-    return _original_split(template)
-jinja2.loaders.split_template_path = _patched_split
-
 import gradio as gr
 from markdown_it import MarkdownIt
 import psycopg2
@@ -244,28 +188,35 @@ def get_lang_choices():
 # Database connection
 def get_db_connection():
     """Get database connection from environment variables."""
-    # Support both individual env vars and DATABASE_URL (Render convention)
-    db_url = os.environ.get('DATABASE_URL')
+    # Support both individual env vars and DATABASE_URL (Render/Supabase convention)
+    db_url = os.environ.get("DATABASE_URL", "").strip()
     if db_url:
-        # Parse DATABASE_URL: postgres://user:pass@host:port/db
+        # psycopg2 accepts a libpq URL directly. Only normalize the scheme
+        # because Render sometimes hands out postgres:// URLs.
+        if db_url.startswith("postgres://"):
+            db_url = "postgresql://" + db_url[len("postgres://"):]
+
+        # Managed Postgres (Supabase) requires TLS. Be explicit instead of
+        # relying on libpq's sslmode=prefer.
         from urllib.parse import urlparse
-        parsed = urlparse(db_url)
+        host = (urlparse(db_url).hostname or "").lower()
+        if "sslmode=" not in db_url and host not in ("localhost", "127.0.0.1", "::1"):
+            db_url += ("&" if "?" in db_url else "?") + "sslmode=require"
+
         return psycopg2.connect(
-            host=parsed.hostname or 'localhost',
-            port=parsed.port or 5432,
-            database=parsed.path.lstrip('/'),
-            user=parsed.username,
-            password=parsed.password,
-            cursor_factory=RealDictCursor
+            db_url,
+            cursor_factory=RealDictCursor,
+            connect_timeout=10,
         )
-    
+
     return psycopg2.connect(
         host=os.environ.get("DB_HOST", "localhost"),
         port=os.environ.get("DB_PORT", "5432"),
         database=os.environ.get("DB_NAME", "lao_python_learn"),
         user=os.environ.get("DB_USER", "lao_user"),
         password=os.environ.get("DB_PASSWORD", "lao_learn_2026"),
-        cursor_factory=RealDictCursor
+        cursor_factory=RealDictCursor,
+        connect_timeout=10,
     )
 
 def load_lessons_from_db(lang=DEFAULT_LANG):
@@ -301,6 +252,11 @@ def load_all_lessons():
 
 # Load lessons for all languages at startup
 ALL_LESSONS = load_all_lessons()
+if not any(ALL_LESSONS.values()):
+    print(
+        "WARNING: No lessons were loaded from the database. "
+        "Check that DATABASE_URL is set and that migrate_to_supabase.py has been run."
+    )
 
 # Pre-render all lessons to HTML for all languages
 ALL_LESSON_HTML = {}

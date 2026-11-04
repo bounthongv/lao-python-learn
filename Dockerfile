@@ -11,4 +11,4 @@ COPY . .
 ENV PORT=7860
 
 # Use Gradio's built-in production server flags
-CMD ["sh", "-c", "python app.py --port $PORT --no-browser"]
+CMD ["sh", "-c", "python app.py --port $PORT"]

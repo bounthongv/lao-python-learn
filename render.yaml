@@ -4,10 +4,11 @@
 services:
   - type: web
     name: lao-python-learn
-    env: python
-    pythonVersion: "3.12"
-    buildCommand: "pip install --no-cache-dir --only-binary=:all: -r requirements.txt"
+    runtime: python
+    buildCommand: "pip install --no-cache-dir -r requirements.txt"
     startCommand: "python app.py --port $PORT"
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.3"
       - key: DATABASE_URL
-        value: ""  # Set this in Render dashboard from Supabase connection string
+        sync: false  # Set in Render dashboard from Supabase connection string
