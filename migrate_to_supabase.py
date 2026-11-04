@@ -109,8 +109,9 @@ def main():
     # Check SQL files exist
     init_sql = project_dir / "init_db.sql"
     multi_sql = project_dir / "migrate_multilingual.sql"
+    en_sql = project_dir / "init_db_en.sql"
 
-    for f in [init_sql, multi_sql]:
+    for f in [init_sql, multi_sql, en_sql]:
         if not f.exists():
             print(f"❌ Missing: {f}")
             sys.exit(1)
@@ -126,6 +127,8 @@ def main():
     success &= run_sql_file(
         conn, multi_sql, "Multilingual support (lang column + index)"
     )
+    # Runs last: it needs the lang column that multi_sql adds.
+    success &= run_sql_file(conn, en_sql, "English reference lessons")
 
     # Verify
     if success:

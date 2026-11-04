@@ -43,8 +43,6 @@ def render_md(text):
 LANGUAGES = {
     "lo": {"name": "ລາວ", "native": "ລາວ", "flag": "🇱🇦"},
     "en": {"name": "English", "native": "English", "flag": "🇺🇸"},
-    "th": {"name": "Thai", "native": "ไทย", "flag": "🇹🇭"},
-    "zh": {"name": "Chinese", "native": "中文", "flag": "🇨🇳"},
 }
 
 DEFAULT_LANG = os.environ.get("DEFAULT_LANG", "lo")
@@ -112,68 +110,6 @@ UI_TEXT = {
             "5. Functions",
         ],
         "lang_label": "Language",
-    },
-    "th": {
-        "title": "เรียน Python",
-        "tab_lessons": "📚 บทเรียน",
-        "tab_playground": "💻 เขียนโค้ด",
-        "tab_about": "ℹ️ เกี่ยวกับ",
-        "select_lesson": "เลือกบทเรียน",
-        "playground_title": "เขียนโค้ด Python แล้วกด Run",
-        "example_label": "ตัวอย่าง",
-        "code_label": "โค้ด",
-        "code_placeholder": "เขียนโค้ด Python ที่นี่...",
-        "output_label": "ผลลัพธ์",
-        "run_btn": "▶ Run",
-        "success": "✅ สำเร็จ!",
-        "success_no_output": "✅ สำเร็จ! (ไม่มีผลลัพธ์)",
-        "error": "❌ ข้อผิดพลาด:",
-        "about_title": "### เกี่ยวกับคอร์สนี้",
-        "about_items": [
-            "เรียน Python ด้วยภาษาของคุณ",
-            "ออกแบบสำหรับนักเรียนมัธยม",
-            "ไม่ต้องมีพื้นฐานการเขียนโปรแกรม",
-            "รันโค้ดทันทีในเบราว์เซอร์",
-        ],
-        "lessons_list": [
-            "1. พื้นฐาน Python",
-            "2. เงื่อนไข",
-            "3. วนลูป",
-            "4. รายการ",
-            "5. ฟังก์ชัน",
-        ],
-        "lang_label": "ภาษา",
-    },
-    "zh": {
-        "title": "学习 Python",
-        "tab_lessons": "📚 课程",
-        "tab_playground": "💻 代码练习",
-        "tab_about": "ℹ️ 关于",
-        "select_lesson": "选择课程",
-        "playground_title": "编写 Python 代码并点击运行",
-        "example_label": "示例",
-        "code_label": "代码",
-        "code_placeholder": "在此编写 Python 代码...",
-        "output_label": "输出",
-        "run_btn": "▶ 运行",
-        "success": "✅ 成功!",
-        "success_no_output": "✅ 成功! (无输出)",
-        "error": "❌ 错误:",
-        "about_title": "### 关于本课程",
-        "about_items": [
-            "用您的语言学习 Python",
-            "专为中学生设计",
-            "无需编程基础",
-            "浏览器中即时运行代码",
-        ],
-        "lessons_list": [
-            "1. Python 基础",
-            "2. 条件判断",
-            "3. 循环",
-            "4. 列表",
-            "5. 函数",
-        ],
-        "lang_label": "语言",
     },
 }
 
@@ -314,60 +250,6 @@ for i in range(10, 0, -1):
 print("Go!")
 """,
         "Temperature Converter": """# Temperature Converter
-celsius = 36.6
-fahrenheit = celsius * 9/5 + 32
-print(f"{celsius}°C = {fahrenheit:.1f}°F")
-""",
-    },
-    "th": {
-        "Hello World": 'print("สวัสดี! เรียน Python")',
-        "Calculator": """# เครื่องคิดเลขง่ายๆ
-a = 10
-b = 3
-
-print(a, "+", b, "=", a + b)
-print(a, "-", b, "=", a - b)
-print(a, "*", b, "=", a * b)
-print(a, "/", b, "=", round(a / b, 4))
-""",
-        "Counting": """# นับตัวเลข
-for i in range(1, 11):
-    print(i, end=" ")
-print()
-
-# นับถอยหลัง
-for i in range(10, 0, -1):
-    print(i, end=" ")
-print("Go!")
-""",
-        "Temperature Converter": """# แปลงอุณหภูมิ
-celsius = 36.6
-fahrenheit = celsius * 9/5 + 32
-print(f"{celsius}°C = {fahrenheit:.1f}°F")
-""",
-    },
-    "zh": {
-        "Hello World": 'print("你好! 学习 Python")',
-        "Calculator": """# 简单计算器
-a = 10
-b = 3
-
-print(a, "+", b, "=", a + b)
-print(a, "-", b, "=", a - b)
-print(a, "*", b, "=", a * b)
-print(a, "/", b, "=", round(a / b, 4))
-""",
-        "Counting": """# 计数
-for i in range(1, 11):
-    print(i, end=" ")
-print()
-
-# 倒计数
-for i in range(10, 0, -1):
-    print(i, end=" ")
-print("Go!")
-""",
-        "Temperature Converter": """# 温度转换
 celsius = 36.6
 fahrenheit = celsius * 9/5 + 32
 print(f"{celsius}°C = {fahrenheit:.1f}°F")

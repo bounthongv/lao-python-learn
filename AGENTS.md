@@ -37,7 +37,13 @@ Quick-ramp file for this repo. Only high-signal facts.
   `example_code`, `"order"`). Quote `"order"` in SQL — it needs escaping.
 - `ALL_LESSONS` / `ALL_LESSON_HTML` are built at import time for every key in `LANGUAGES`;
   if the DB is unreachable or unmigrated the app still serves, with empty lessons.
-- A new language needs parallel entries in `LANGUAGES`, `UI_TEXT`, and `EXAMPLE_CODES`.
+- A new language needs parallel entries in `LANGUAGES`, `UI_TEXT`, and `EXAMPLE_CODES`, plus
+  a SQL file of lessons with its own `lang` value and unique slugs (the `-en` suffix pattern).
+- Only `lo` and `en` exist now. Thai and Chinese were removed at the owner's request; the
+  English lessons in `init_db_en.sql` are the reference text the Lao is translated from — keep
+  them section-by-section parallel when editing either side.
+- `migrate_to_supabase.py` runs `init_db.sql` → `migrate_multilingual.sql` → `init_db_en.sql`.
+  The last one needs the `lang` column, so it must stay after the multilingual migration.
 - README.md YAML front matter is the Hugging Face Spaces config; keep `sdk_version` in sync
   with `requirements.txt`.
 
