@@ -456,6 +456,9 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
     background: #fafafa;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+    max-width: 100%;
 }
 .lesson-html h1, .lesson-html > .lesson-html h1 { font-size: 1.8em; font-weight: 700; margin-bottom: 0.5em; color: #1a1a2e; }
 .lesson-html h2, .lesson-html > .lesson-html h2 { font-size: 1.4em; font-weight: 600; margin-top: 1.2em; margin-bottom: 0.4em; color: #16213e; }
