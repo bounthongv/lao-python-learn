@@ -27,7 +27,7 @@ Web-based Python learning platform for Lao secondary students, built with Gradio
 4. ລິສ (Lists) - list operations
 5. ຟັງຊັນ (Functions) - function definition
 6. ວັດຈະນານຸກົມ (Dictionaries) - key/value pairs
-7. ສາຍອັກສອນ (Strings) - slicing, split, join, f-strings
+7. ຄຳເວົ້າ (Strings) - slicing, split, join, f-strings
 8. ໄຟລ໌ (Files) - read, write, append, try/except
 
 ## Run Locally

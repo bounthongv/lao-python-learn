@@ -34,7 +34,9 @@ Quick-ramp file for this repo. Only high-signal facts.
 
 ## Lao terminology (use these, not literal dictionary words)
 - List → ລິສ (not ລິສັດ = "company"), Loop → ລຸປ (not ລູກສອນ = "arrow"),
-  variable → ຕົວແປ (not ຕົວແປງ), important → ສຳຄັນ (no ເ).
+  variable → ຕົວແປ (not ຕົວແປງ), important → ສຳຄັນ (no ເ),
+  string → ຄຳເວົ້າ (not ສາຍອັກສອນ, and not ຂໍ້ຄວາມ = "message/text").
+- Write the ຳ vowel as U+0EB3 (ຄຳ, ຈຳນວນ), never ຄໍາ with U+0EC5 — that one means "neck".
 - Much of the lesson prose is still machine-mangled Lao; fix it with byte-exact extracted
   strings, and never rewrite a whole lesson in one pass.
 
