@@ -356,6 +356,10 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
     line-height: 1.8;
     padding: 16px;
     background: #fafafa;
+    /* The card is always light, so its text must be always dark. Without this,
+       anything that has no colour of its own (<li>, <td>) inherits the theme's
+       text colour and goes invisible on #fafafa in dark mode. */
+    color: #1e293b !important;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
     overflow-wrap: break-word;
@@ -370,7 +374,7 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
 .lesson-html h6, .lesson-html > .lesson-html h6 { font-size: 1em; font-weight: 600; margin-top: 1em; margin-bottom: 0.3em; color: #475569; }
 .lesson-html p, .lesson-html > .lesson-html p { margin-bottom: 0.8em; color: #1e293b; }
 .lesson-html ul, .lesson-html ol, .lesson-html > .lesson-html ul, .lesson-html > .lesson-html ol { margin-left: 1.5em; margin-bottom: 0.8em; }
-.lesson-html li, .lesson-html > .lesson-html li { margin-bottom: 0.3em; }
+.lesson-html li, .lesson-html > .lesson-html li { margin-bottom: 0.3em; color: #1e293b; }
 .lesson-html li::marker { color: #6366f1; font-weight: 600; }
 
 /* Inline code */
@@ -490,7 +494,6 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
 .exercise-md {
     font-size: 15px;
     line-height: 1.7;
-    color: #1e293b;
 }
 .exercise-md ol {
     list-style: decimal inside;

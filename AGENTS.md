@@ -27,6 +27,10 @@ Quick-ramp file for this repo. Only high-signal facts.
   background; without `!important` the code samples render dark-on-dark.
 - Exercise/solution markdown uses `elem_classes="exercise-md"`, deliberately NOT `lesson-html`:
   the light-on-dark rules above would make Gradio's own light code blocks unreadable.
+- The lesson card is forced light (`background: #fafafa`), so it also needs `color: #1e293b
+  !important`: `?__theme=dark` otherwise leaves `<li>`/`<td>` on the theme's light text colour,
+  which is invisible on the card. Anything theme-coloured (the accordions, About) must NOT get a
+  hard-coded colour — it breaks the other way.
 
 ## Lao terminology (use these, not literal dictionary words)
 - List → ລິສ (not ລິສັດ = "company"), Loop → ລຸປ (not ລູກສອນ = "arrow"),
