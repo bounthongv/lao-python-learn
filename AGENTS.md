@@ -25,6 +25,8 @@ Quick-ramp file for this repo. Only high-signal facts.
 - Lesson `<pre>` blocks need `color: … !important` on `pre`, `pre code` **and** `pre code *`.
   Something inside the block sets its own dark token colour, which is invisible on the dark
   background; without `!important` the code samples render dark-on-dark.
+- Exercise/solution markdown uses `elem_classes="exercise-md"`, deliberately NOT `lesson-html`:
+  the light-on-dark rules above would make Gradio's own light code blocks unreadable.
 
 ## Lao terminology (use these, not literal dictionary words)
 - List → ລິສ (not ລິສັດ = "company"), Loop → ລຸປ (not ລູກສອນ = "arrow"),
@@ -34,7 +36,8 @@ Quick-ramp file for this repo. Only high-signal facts.
 
 ## Adding a lesson / language
 - Lesson text lives in Postgres (`lessons`: `lang`, `title`, `slug`, `content_markdown`,
-  `example_code`, `"order"`). Quote `"order"` in SQL — it needs escaping.
+  `example_code`, `exercises_markdown`, `exercise_solutions`, `"order"`). Quote `"order"` in
+  SQL — it needs escaping.
 - `ALL_LESSONS` / `ALL_LESSON_HTML` are built at import time for every key in `LANGUAGES`;
   if the DB is unreachable or unmigrated the app still serves, with empty lessons.
 - A new language needs parallel entries in `LANGUAGES`, `UI_TEXT`, and `EXAMPLE_CODES`, plus
@@ -54,6 +57,12 @@ Quick-ramp file for this repo. Only high-signal facts.
 - Port resolution: `--port` flag, else `$PORT`, else 7860. Start is `python app.py --port $PORT`.
 - Playground runs user code with in-process `exec()` and redirected stdout. No sandbox and no
   subprocess; don't "harden" it by adding dependencies unless asked.
+- `run_code()` also swaps `sys.stdin` for a `StringIO` of the Input textbox, which is how
+  `input()` works. Blank input means `input()` raises `EOFError` — that is the intended message.
+- `select_lesson()` returns 4 values (html, exercises, solutions, accordion update) and
+  `on_lang_change()` returns 18; both must stay index-aligned with the `outputs=[…]` lists.
+- Lessons with no `exercises_markdown` (all Lao rows for now) hide the whole "Try it" accordion,
+  so a half-translated lesson never shows an empty box.
 
 ## Database / Supabase
 - The app reads `DATABASE_URL` (or individual `DB_*` vars); `migrate_to_supabase.py` reads

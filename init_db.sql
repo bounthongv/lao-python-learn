@@ -11,9 +11,16 @@ CREATE TABLE IF NOT EXISTS lessons (
     slug VARCHAR(255) UNIQUE NOT NULL,
     content_markdown TEXT NOT NULL,
     example_code TEXT,
+    exercises_markdown TEXT,
+    exercise_solutions TEXT,
     "order" INTEGER NOT NULL DEFAULT 0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Exercises were added after the first deploy, so the table above may already
+-- exist without them.
+ALTER TABLE lessons ADD COLUMN IF NOT EXISTS exercises_markdown TEXT;
+ALTER TABLE lessons ADD COLUMN IF NOT EXISTS exercise_solutions TEXT;
 
 -- Insert 5 lessons in Lao
 INSERT INTO lessons (title, slug, content_markdown, example_code, "order") VALUES

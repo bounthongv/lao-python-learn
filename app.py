@@ -78,6 +78,10 @@ UI_TEXT = {
             "4. ລິສ",
             "5. ຟັງຊັນ",
         ],
+        "exercises_title": "ບົດຝຶກຫັດ",
+        "solutions_title": "ຄຳຕອບ",
+        "input_label": "ຂໍ້ມູນສຳລັບ input()",
+        "input_placeholder": "ຄ່າທີ່ input() ຈະອ່ານ, ໜຶ່ງຄ່າຕໍ່ໜຶ່ງແຖວ",
         "lang_label": "ພາສາ / Language",
     },
     "en": {
@@ -109,6 +113,10 @@ UI_TEXT = {
             "4. Lists",
             "5. Functions",
         ],
+        "exercises_title": "Try it",
+        "solutions_title": "Solution",
+        "input_label": "Input (what input() reads)",
+        "input_placeholder": "One value per line, in the order input() asks for it",
         "lang_label": "Language",
     },
 }
@@ -161,7 +169,9 @@ def load_lessons_from_db(lang=DEFAULT_LANG):
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute(
-            "SELECT id, title, slug, content_markdown, example_code, \"order\" FROM lessons WHERE lang = %s ORDER BY \"order\"",
+            "SELECT id, title, slug, content_markdown, example_code, "
+            "exercises_markdown, exercise_solutions, \"order\" "
+            "FROM lessons WHERE lang = %s ORDER BY \"order\"",
             (lang,)
         )
         rows = cur.fetchall()
@@ -172,7 +182,9 @@ def load_lessons_from_db(lang=DEFAULT_LANG):
         for row in rows:
             lessons[row["title"]] = {
                 "content": row["content_markdown"],
-                "example": row["example_code"] or ""
+                "example": row["example_code"] or "",
+                "exercises": row["exercises_markdown"] or "",
+                "solutions": row["exercise_solutions"] or "",
             }
         return lessons
     except Exception as e:
@@ -257,13 +269,16 @@ print(f"{celsius}°C = {fahrenheit:.1f}°F")
     },
 }
 
-def run_code(code, lang):
+def run_code(code, lang, user_input=""):
     """Run Python code and return output with localized messages."""
     import io
     import sys
 
-    old_stdout = sys.stdout
+    old_stdout, old_stdin = sys.stdout, sys.stdin
     sys.stdout = mystdout = io.StringIO()
+    # input() reads from this instead of the terminal, so the playground can take
+    # the values typed in the Input box, one per line, in call order.
+    sys.stdin = io.StringIO(user_input or "")
 
     try:
         exec(code)
@@ -275,13 +290,18 @@ def run_code(code, lang):
         error_msg = t(lang, "error")
         return f"{error_msg}\n{str(e)}"
     finally:
-        sys.stdout = old_stdout
+        sys.stdout, sys.stdin = old_stdout, old_stdin
 
 def select_lesson(lesson_name, lang):
-    """Return pre-rendered HTML for the selected lesson in given language."""
-    if lesson_name and lang in ALL_LESSON_HTML and lesson_name in ALL_LESSON_HTML[lang]:
-        return ALL_LESSON_HTML[lang][lesson_name]
-    return ""
+    """Return lesson HTML, exercise markdown, solution markdown and the accordion update."""
+    lessons = ALL_LESSONS.get(lang, {})
+    data = lessons.get(lesson_name) if lesson_name else None
+    if data is None:
+        return "", "", "", gr.update(visible=False)
+    html = ALL_LESSON_HTML[lang].get(lesson_name, "")
+    exercises = data["exercises"]
+    solutions = data["solutions"]
+    return html, exercises, solutions, gr.update(visible=bool(exercises))
 
 def get_first_lesson(lang):
     """Get first lesson title for given language."""
@@ -460,6 +480,25 @@ body, .gradio-container, textarea, input, button, select, .tab-item, .block {
     padding: 16px;
     line-height: 1.7;
 }
+
+/* === Exercises === */
+/* Deliberately NOT .lesson-html: those rules force light text and would make
+   Gradio's own code blocks inside the solution accordion unreadable. */
+.exercise-accordion {
+    margin-top: 16px;
+}
+.exercise-md {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #1e293b;
+}
+.exercise-md ol {
+    list-style: decimal inside;
+    padding-left: 0.25em;
+}
+.exercise-md li {
+    margin-bottom: 0.75em;
+}
 """
 
 # Build the Gradio app with language support
@@ -495,11 +534,28 @@ def build_app():
                 show_label=False,
                 elem_classes="lesson-html"
             )
-            
+
+            first_data = ALL_LESSONS[DEFAULT_LANG].get(first_lesson, {})
+            with gr.Accordion(
+                UI_TEXT[DEFAULT_LANG]["exercises_title"],
+                open=False,
+                visible=bool(first_data.get("exercises")),
+                elem_classes="exercise-accordion",
+            ) as exercises_accordion:
+                exercises_md = gr.Markdown(
+                    first_data.get("exercises", ""),
+                    elem_classes="exercise-md",
+                )
+                with gr.Accordion(UI_TEXT[DEFAULT_LANG]["solutions_title"], open=False):
+                    solutions_md = gr.Markdown(
+                        first_data.get("solutions", ""),
+                        elem_classes="exercise-md",
+                    )
+
             lesson_selector.change(
                 fn=select_lesson,
                 inputs=[lesson_selector, lang_state],
-                outputs=lesson_content
+                outputs=[lesson_content, exercises_md, solutions_md, exercises_accordion]
             )
         
         with gr.Tab(UI_TEXT[DEFAULT_LANG]["tab_playground"]) as tab_playground:
@@ -517,14 +573,19 @@ def build_app():
                 elem_classes="code-editor"
             )
             code_output = gr.Textbox(label=UI_TEXT[DEFAULT_LANG]["output_label"], lines=10, interactive=False)
-            
+
+            input_box = gr.Textbox(
+                label=UI_TEXT[DEFAULT_LANG]["input_label"],
+                lines=2,
+                placeholder=UI_TEXT[DEFAULT_LANG]["input_placeholder"],
+            )
             run_btn = gr.Button(UI_TEXT[DEFAULT_LANG]["run_btn"], variant="primary", elem_classes="run-btn")
             
             def on_select_example(example, lang):
                 return EXAMPLE_CODES.get(lang, EXAMPLE_CODES["lo"]).get(example, "")
             
             example_selector.change(on_select_example, inputs=[example_selector, lang_state], outputs=code_input)
-            run_btn.click(run_code, inputs=[code_input, lang_state], outputs=code_output)
+            run_btn.click(run_code, inputs=[code_input, lang_state, input_box], outputs=code_output)
         
         with gr.Tab(UI_TEXT[DEFAULT_LANG]["tab_about"]) as tab_about:
             about_md = gr.Markdown(
@@ -541,6 +602,8 @@ def build_app():
             lessons = list(ALL_LESSONS.get(lang, {}).keys())
             examples = list(EXAMPLE_CODES.get(lang, EXAMPLE_CODES["lo"]).keys())
             ui = UI_TEXT.get(lang, UI_TEXT["lo"])
+            first_data = ALL_LESSONS.get(lang, {}).get(first, {})
+            exercises = first_data.get("exercises", "")
             
             # Return values in order matching outputs list below
             return [
@@ -552,6 +615,12 @@ def build_app():
                 gr.Dropdown(choices=lessons, value=first, label=ui['select_lesson']),
                 # lesson_content
                 ALL_LESSON_HTML[lang].get(first, ""),
+                # exercises_md
+                exercises,
+                # solutions_md
+                first_data.get("solutions", ""),
+                # exercises_accordion
+                gr.Accordion(visible=bool(exercises), label=ui['exercises_title']),
                 # tab_playground label
                 ui['tab_playground'],
                 # playground_title_md
@@ -560,6 +629,8 @@ def build_app():
                 gr.Dropdown(choices=examples, value="Hello World", label=ui['example_label']),
                 # code_input (label, placeholder)
                 gr.Textbox(label=ui['code_label'], placeholder=ui['code_placeholder']),
+                # input_box (label, placeholder)
+                gr.Textbox(label=ui['input_label'], placeholder=ui['input_placeholder']),
                 # code_output (label)
                 gr.Textbox(label=ui['output_label']),
                 # run_btn
@@ -578,20 +649,24 @@ def build_app():
             fn=on_lang_change,
             inputs=lang_selector,
             outputs=[
-                title_md,           # 0
-                tab_lessons,        # 1
-                lesson_selector,    # 2
-                lesson_content,     # 3
-                tab_playground,     # 4
-                playground_title_md,# 5
-                example_selector,   # 6
-                code_input,         # 7
-                code_output,        # 8
-                run_btn,            # 9
-                tab_about,          # 10
-                about_md,           # 11
-                lang_state,         # 12
-                lang_selector,      # 13
+                title_md,            # 0
+                tab_lessons,         # 1
+                lesson_selector,     # 2
+                lesson_content,      # 3
+                exercises_md,        # 4
+                solutions_md,        # 5
+                exercises_accordion, # 6
+                tab_playground,      # 7
+                playground_title_md, # 8
+                example_selector,    # 9
+                code_input,          # 10
+                input_box,           # 11
+                code_output,         # 12
+                run_btn,             # 13
+                tab_about,           # 14
+                about_md,            # 15
+                lang_state,          # 16
+                lang_selector,       # 17
             ]
         )
     

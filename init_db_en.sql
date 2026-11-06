@@ -437,3 +437,243 @@ ON CONFLICT (slug) DO UPDATE SET
     example_code = EXCLUDED.example_code,
     "order" = EXCLUDED."order",
     lang = EXCLUDED.lang;
+
+-- Exercises for the English lessons. Each lesson has three to four tasks and a
+-- matching solution, shown in the "Try it" and "Solution" panels under the lesson.
+-- Anything that reads input() says what to type in the Input box.
+
+UPDATE lessons SET
+exercises_markdown = $$1. Use an f-string to print one sentence about yourself: your name, your age and your favourite food.
+
+2. Ask for a name with `input()` and print `Hello, <name>!`. Type the name in the **Input** box above the Run button before you press Run.
+
+3. Ask for two whole numbers and print their sum. Remember that `input()` always hands back *text*, so turn it into a number with `int()` first.$$
+,
+exercise_solutions = $$**1.**
+
+```python
+name = "Dao"
+age = 15
+food = "sticky rice"
+print(f"My name is {name}, I am {age} years old and I like {food}.")
+```
+
+**2.**
+
+```python
+name = input("What is your name? ")
+print(f"Hello, {name}!")
+```
+
+Type `Somchit` in the Input box.
+
+**3.**
+
+```python
+a = int(input("First number: "))
+b = int(input("Second number: "))
+print(f"{a} + {b} = {a + b}")
+```
+
+Type `5` and `3` in the Input box, one per line.$$
+WHERE slug = 'lesson-1-basics-en';
+
+UPDATE lessons SET
+exercises_markdown = $$1. Ask for a number and print `positive`, `negative` or `zero`.
+
+2. Ask for an age and print `child` (under 13), `teenager` (13 to 19) or `adult`. Use one `if / elif / else` chain, not three separate `if` statements.
+
+3. A bus ticket costs 20000 LAK. Children under 12 and students of any age travel for half price. Ask for the age, then ask if the person is a student (`yes` or `no`), and print the price. Use `or`.$$
+,
+exercise_solutions = $$**1.**
+
+```python
+n = int(input("Number: "))
+
+if n > 0:
+    print("positive")
+elif n < 0:
+    print("negative")
+else:
+    print("zero")
+```
+
+**2.**
+
+```python
+age = int(input("Age: "))
+
+if age < 13:
+    print("child")
+elif age <= 19:
+    print("teenager")
+else:
+    print("adult")
+```
+
+**3.**
+
+```python
+age = int(input("Age: "))
+student = input("Are you a student? (yes/no) ")
+
+if age < 12 or student == "yes":
+    print("Price: 10000 LAK")
+else:
+    print("Price: 20000 LAK")
+```
+
+Try `age = 20` and `yes` in the Input box: the answer is 10000 LAK.$$
+WHERE slug = 'lesson-2-conditions-en';
+
+UPDATE lessons SET
+exercises_markdown = $$1. Print the 7 times table, from `7 x 1` to `7 x 10`, one line each.
+
+2. Add up every number from 1 to 100 inside a loop and print the total. Check that you get 5050.
+
+3. Print the odd numbers counting down from 21 to 1 using one `range()` call, then print `Done!`.
+
+4. Print a square of stars, 5 rows by 5 columns, using a loop inside a loop.$$
+,
+exercise_solutions = $$**1.**
+
+```python
+for i in range(1, 11):
+    print(f"7 x {i} = {7 * i}")
+```
+
+**2.**
+
+```python
+total = 0
+for i in range(1, 101):
+    total += i
+print(total)  # 5050
+```
+
+**3.**
+
+```python
+for i in range(21, 0, -2):
+    print(i)
+print("Done!")
+```
+
+**4.**
+
+```python
+for row in range(5):
+    for col in range(5):
+        print("*", end="")
+    print()
+```
+
+`end=""` stops `print()` from moving to a new line after every star.$$
+WHERE slug = 'lesson-3-loops-en';
+
+UPDATE lessons SET
+exercises_markdown = $$1. Make a list of five city or district names. Print the second one and the last one.
+
+2. Add a name to the end of your list, remove one by name, then print the whole list and how many items it holds.
+
+3. Print every name in your list with its position, counting from 1 instead of 0.
+
+4. Start from `numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` and print the middle four items, then print every third item.$$
+,
+exercise_solutions = $$**1.**
+
+```python
+cities = ["Vientiane", "Luang Prabang", "Pakse", "Thakhek", "Savannakhet"]
+
+print(cities[1])   # Luang Prabang
+print(cities[-1])  # Savannakhet
+```
+
+**2.**
+
+```python
+cities = ["Vientiane", "Luang Prabang", "Pakse", "Thakhek", "Savannakhet"]
+
+cities.append("Xam Neua")
+cities.remove("Pakse")
+
+print(cities)
+print(len(cities))  # 5
+```
+
+**3.**
+
+```python
+cities = ["Vientiane", "Luang Prabang", "Pakse", "Thakhek", "Savannakhet"]
+
+for i, city in enumerate(cities, 1):
+    print(f"{i}. {city}")
+```
+
+**4.**
+
+```python
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+print(numbers[3:7])   # [4, 5, 6, 7]
+print(numbers[::3])   # [1, 4, 7, 10]
+```$$
+WHERE slug = 'lesson-4-lists-en';
+
+UPDATE lessons SET
+exercises_markdown = $$1. Write a function `rectangle_area(width, height)` that returns the area. Call it three times with different numbers and print each result.
+
+2. Write a function `is_even(n)` that returns `True` or `False`. Use it inside a loop to print the even numbers from 1 to 20.
+
+3. Write `greet(name, language="Lao")` that prints a greeting. Call it once with only a name and once with both arguments.
+
+4. Write a function that takes a list of numbers and returns the largest one, without using `max()`.$$
+,
+exercise_solutions = $$**1.**
+
+```python
+def rectangle_area(width, height):
+    return width * height
+
+print(rectangle_area(5, 3))
+print(rectangle_area(2, 2))
+print(rectangle_area(10, 4))
+```
+
+**2.**
+
+```python
+def is_even(n):
+    return n % 2 == 0
+
+for i in range(1, 21):
+    if is_even(i):
+        print(i, end=" ")
+```
+
+**3.**
+
+```python
+def greet(name, language="Lao"):
+    if language == "Lao":
+        print(f"Sabaidee, {name}!")
+    else:
+        print(f"Hello, {name}!")
+
+greet("Somchit")
+greet("Somchit", "English")
+```
+
+**4.**
+
+```python
+def biggest(numbers):
+    best = numbers[0]
+    for n in numbers:
+        if n > best:
+            best = n
+    return best
+
+print(biggest([3, 9, 1, 7, 5]))  # 9
+```$$
+WHERE slug = 'lesson-5-functions-en';
