@@ -55,6 +55,10 @@ Quick-ramp file for this repo. Only high-signal facts.
   with `requirements.txt`.
 
 ## App startup behavior (app.py)
+- Layout/`Button` components in an `outputs=[…]` list must be updated by returning a component
+  object (`gr.Tab(label)`), never a bare string: Gradio raises
+  `Tab Component not a valid output component` and the whole event fails with an "Error" toast.
+  This silently broke the language switch until `show_error=True` was used to surface it.
 - The `audioop`/`pyaudioop` stub must execute BEFORE `import gradio`; moving it breaks 3.14+.
 - `RENDER=true` monkey-patches `gradio.networking.url_ok` to return True — Gradio 4.44 still
   fails its localhost check behind Render's reverse proxy. Do not remove.

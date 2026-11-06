@@ -608,12 +608,15 @@ def build_app():
             first_data = ALL_LESSONS.get(lang, {}).get(first, {})
             exercises = first_data.get("exercises", "")
             
-            # Return values in order matching outputs list below
+            # Return values in order matching outputs list below. Layout components
+            # (Tab, Accordion) and Button must be returned as component objects, not bare
+            # strings: Gradio rejects a plain value for anything that is not a Component
+            # ("Tab Component not a valid output component") and the whole event fails.
             return [
                 # title_md
                 f"# 🐍 {ui['title']}",
                 # tab_lessons label
-                ui['tab_lessons'],
+                gr.Tab(ui['tab_lessons']),
                 # lesson_selector (choices, value, label)
                 gr.Dropdown(choices=lessons, value=first, label=ui['select_lesson']),
                 # lesson_content
@@ -625,7 +628,7 @@ def build_app():
                 # exercises_accordion
                 gr.Accordion(visible=bool(exercises), label=ui['exercises_title']),
                 # tab_playground label
-                ui['tab_playground'],
+                gr.Tab(ui['tab_playground']),
                 # playground_title_md
                 f"### {ui['playground_title']}",
                 # example_selector
@@ -639,7 +642,7 @@ def build_app():
                 # run_btn
                 gr.Button(ui['run_btn'], variant="primary"),
                 # tab_about label
-                ui['tab_about'],
+                gr.Tab(ui['tab_about']),
                 # about_md
                 ui['about_title'] + "\n" + "\n".join([f"- {item}" for item in ui['about_items']]) + "\n\n### Lessons\n" + "\n".join([f"{i+1}. {item}" for i, item in enumerate(ui['lessons_list'])]),
                 # lang_state
@@ -648,29 +651,31 @@ def build_app():
                 gr.Dropdown(label=ui['lang_label']),
             ]
         
+        lang_outputs = [
+            title_md,            # 0
+            tab_lessons,         # 1
+            lesson_selector,     # 2
+            lesson_content,      # 3
+            exercises_md,        # 4
+            solutions_md,        # 5
+            exercises_accordion, # 6
+            tab_playground,      # 7
+            playground_title_md, # 8
+            example_selector,    # 9
+            code_input,          # 10
+            input_box,           # 11
+            code_output,         # 12
+            run_btn,             # 13
+            tab_about,           # 14
+            about_md,            # 15
+            lang_state,          # 16
+            lang_selector,       # 17
+        ]
+
         lang_selector.change(
             fn=on_lang_change,
             inputs=lang_selector,
-            outputs=[
-                title_md,            # 0
-                tab_lessons,         # 1
-                lesson_selector,     # 2
-                lesson_content,      # 3
-                exercises_md,        # 4
-                solutions_md,        # 5
-                exercises_accordion, # 6
-                tab_playground,      # 7
-                playground_title_md, # 8
-                example_selector,    # 9
-                code_input,          # 10
-                input_box,           # 11
-                code_output,         # 12
-                run_btn,             # 13
-                tab_about,           # 14
-                about_md,            # 15
-                lang_state,          # 16
-                lang_selector,       # 17
-            ]
+            outputs=lang_outputs
         )
     
     return app
