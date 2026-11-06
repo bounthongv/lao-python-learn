@@ -273,6 +273,11 @@ def run_code(code, lang, user_input=""):
     """Run Python code and return output with localized messages."""
     import io
     import sys
+    import textwrap
+
+    # Snippets copied out of a lesson keep the indentation of the block they came
+    # from, and Python rejects code whose first line is indented.
+    code = textwrap.dedent(code)
 
     old_stdout, old_stdin = sys.stdout, sys.stdin
     sys.stdout = mystdout = io.StringIO()

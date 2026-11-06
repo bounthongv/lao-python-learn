@@ -67,6 +67,9 @@ Quick-ramp file for this repo. Only high-signal facts.
   subprocess; don't "harden" it by adding dependencies unless asked.
 - `run_code()` also swaps `sys.stdin` for a `StringIO` of the Input textbox, which is how
   `input()` works. Blank input means `input()` raises `EOFError` — that is the intended message.
+- `run_code()` runs `textwrap.dedent()` first: code pasted from a lesson keeps the block's
+  indentation and Python rejects a first line that is indented. Only strips a *shared* prefix,
+  so genuinely mis-indented snippets still get `unexpected indent`.
 - `select_lesson()` returns 4 values (html, exercises, solutions, accordion update) and
   `on_lang_change()` returns 18; both must stay index-aligned with the `outputs=[…]` lists.
 - Lessons with no `exercises_markdown` (all Lao rows for now) hide the whole "Try it" accordion,
