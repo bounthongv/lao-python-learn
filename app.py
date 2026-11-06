@@ -71,13 +71,7 @@ UI_TEXT = {
             "ບໍ່ຕ້ອງການພື້ນຖານການຂຽນໂປຣແກຣມ",
             "ລອງຂຽນໂຄດໄດ້ທັນທີ",
         ],
-        "lessons_list": [
-            "1. ພື້ນຖານ Python",
-            "2. ໃຊ້ງານເງື່ອນໄຂ",
-            "3. ລຸປ",
-            "4. ລິສ",
-            "5. ຟັງຊັນ",
-        ],
+        "lessons_heading": "### ບົດຮຽນ",
         "exercises_title": "ບົດຝຶກຫັດ",
         "solutions_title": "ຄຳຕອບ",
         "input_label": "ຂໍ້ມູນສຳລັບ input()",
@@ -106,13 +100,7 @@ UI_TEXT = {
             "No programming experience needed",
             "Run code instantly in browser",
         ],
-        "lessons_list": [
-            "1. Python Basics",
-            "2. Conditions",
-            "3. Loops",
-            "4. Lists",
-            "5. Functions",
-        ],
+        "lessons_heading": "### Lessons",
         "exercises_title": "Try it",
         "solutions_title": "Solution",
         "input_label": "Input (what input() reads)",
@@ -210,6 +198,16 @@ if not any(ALL_LESSONS.values()):
 ALL_LESSON_HTML = {}
 for lang, lessons in ALL_LESSONS.items():
     ALL_LESSON_HTML[lang] = {name: render_md(data["content"]) for name, data in lessons.items()}
+
+def about_markdown(lang):
+    """About tab body. The lesson list is read from the DB, so it cannot fall behind
+    the lessons that are actually selectable."""
+    ui = UI_TEXT.get(lang, UI_TEXT[DEFAULT_LANG])
+    lines = [ui["about_title"], ""]
+    lines += [f"- {item}" for item in ui["about_items"]]
+    lines += ["", ui["lessons_heading"], ""]
+    lines += list(ALL_LESSONS.get(lang, {}).keys())
+    return "\n".join(lines)
 
 # Example codes for the code playground (static fallback) - can be extended per language
 EXAMPLE_CODES = {
@@ -597,10 +595,7 @@ def build_app():
         
         with gr.Tab(UI_TEXT[DEFAULT_LANG]["tab_about"]) as tab_about:
             about_md = gr.Markdown(
-                UI_TEXT[DEFAULT_LANG]["about_title"] + "\n" + 
-                "\n".join([f"- {item}" for item in UI_TEXT[DEFAULT_LANG]["about_items"]]) + "\n\n" +
-                "### Lessons\n" +
-                "\n".join([f"{i+1}. {item}" for i, item in enumerate(UI_TEXT[DEFAULT_LANG]["lessons_list"])]),
+                about_markdown(DEFAULT_LANG),
                 elem_classes="about-content"
             )
         
@@ -649,7 +644,7 @@ def build_app():
                 # tab_about label
                 gr.Tab(ui['tab_about']),
                 # about_md
-                ui['about_title'] + "\n" + "\n".join([f"- {item}" for item in ui['about_items']]) + "\n\n### Lessons\n" + "\n".join([f"{i+1}. {item}" for i, item in enumerate(ui['lessons_list'])]),
+                about_markdown(lang),
                 # lang_state
                 lang,
                 # lang_selector (label)

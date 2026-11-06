@@ -51,6 +51,14 @@ Quick-ramp file for this repo. Only high-signal facts.
   them section-by-section parallel when editing either side.
 - `migrate_to_supabase.py` runs `init_db.sql` → `migrate_multilingual.sql` → `init_db_en.sql`.
   The last one needs the `lang` column, so it must stay after the multilingual migration.
+  Lao rows in `init_db.sql` therefore must NOT mention the `lang` column.
+- Lao and English both have lessons 1-8 now. Lessons 6-8 carry `exercises_markdown` +
+  `exercise_solutions` inside their own INSERT instead of a later UPDATE, so prose and tasks
+  stay together. `-- Lessons 6-8` marks that block in both SQL files.
+- Lesson titles already include their number (`6. ວັດຈະນານຸກົມ (Dictionaries)`), and
+  `ALL_LESSONS` is keyed by title. Anything that lists them must not renumber.
+- The About tab lesson list comes from the DB through `about_markdown(lang)`, not from
+  `UI_TEXT`; only the `### Lessons` heading text (`lessons_heading`) is hardcoded.
 - README.md YAML front matter is the Hugging Face Spaces config; keep `sdk_version` in sync
   with `requirements.txt`.
 
@@ -72,8 +80,8 @@ Quick-ramp file for this repo. Only high-signal facts.
   so genuinely mis-indented snippets still get `unexpected indent`.
 - `select_lesson()` returns 4 values (html, exercises, solutions, accordion update) and
   `on_lang_change()` returns 18; both must stay index-aligned with the `outputs=[…]` lists.
-- Lessons with no `exercises_markdown` (all Lao rows for now) hide the whole "Try it" accordion,
-  so a half-translated lesson never shows an empty box.
+- Lessons with no `exercises_markdown` (Lao lessons 1-5 for now) hide the whole "Try it"
+  accordion, so a half-translated lesson never shows an empty box.
 
 ## Database / Supabase
 - The app reads `DATABASE_URL` (or individual `DB_*` vars); `migrate_to_supabase.py` reads

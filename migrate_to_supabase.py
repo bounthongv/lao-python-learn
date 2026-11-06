@@ -123,7 +123,7 @@ def main():
 
     # Run migrations
     success = True
-    success &= run_sql_file(conn, init_sql, "Initial schema + 5 Lao lessons")
+    success &= run_sql_file(conn, init_sql, "Initial schema + 8 Lao lessons")
     success &= run_sql_file(
         conn, multi_sql, "Multilingual support (lang column + index)"
     )
